@@ -1,0 +1,50 @@
+<?php
+
+use Livewire\Component;
+use Livewire\Attributes\On;
+
+new class extends Component {
+    public $data;
+    public $offset = 0;
+
+    #[On('tes')]
+    public function getAll()
+    {
+        $this->data = DB::select('select * from lihat_barang limit 1 offset ?', [$this->offset]);
+        $this->offset += 1;
+        dump($this->data);
+    }
+};
+?>
+
+<div>
+    <button wire:click="getAll">tes</button>
+    <table class="table">
+        <thead class="thead">
+            <tr>
+                <th>sd</th>
+                <th>sdasd</th>
+                <th>sdasdasd</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if ($data)
+                @foreach ($data as $d)
+                    @if ($loop->iteration % 2 == 1)
+                        <tr class="trOdd">
+                            <td>{{ $d->jenis }}</td>
+                            <td>{{ $d->Nama }}</td>
+                            <td>{{ $d->Harga }}</td>
+                        </tr>
+                    @else
+                        <tr class="trEven">
+                            <td>{{ $d->jenis }}</td>
+                            <td>{{ $d->Nama }}</td>
+                            <td>{{ $d->Harga }}</td>
+                        </tr>
+                    @endif
+                @endforeach
+            @endif
+        </tbody>
+    </table>
+</div>

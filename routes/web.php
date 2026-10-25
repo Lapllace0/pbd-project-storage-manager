@@ -9,5 +9,6 @@ Route::get('/', function () {
 
 Route::post('/login', [loginController::class, 'tryLogin']);
 
-Route::get('/dashboard', [loginController::class, 'toDashboard'])->middleware('auth');
+Route::get('/dashboard', [loginController::class, 'toDashboard']);
 
+// Route::barang('/barang', )

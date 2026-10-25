@@ -8,6 +8,6 @@ use Illuminate\Support\Facades\DB;
 class login extends Model
 {
     public static function getData(string $username) {
-        return DB::select('select * from user where username = $1 limit 1', [$username]);
+        return DB::select('select * from user where username = ? limit 1', [$username]);
     }
 }

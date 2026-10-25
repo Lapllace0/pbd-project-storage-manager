@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\login;
-
+use Illuminate\Support\Facades\Hash;
 use function PHPUnit\Framework\isEmpty;
 
 class loginController extends Controller
@@ -12,10 +12,10 @@ class loginController extends Controller
     public function tryLogin(Request $request)
     {
 
-        $userInData = login::getData($request->username);
-        if (!isEmpty($userInData)) {
+        $userInData = login::getData(trim($request->username));
+        if (!empty($userInData)) {
 
-            if (password_verify($request->password, $userInData[0]->password)) {
+            if (Hash::check(trim($request->password), $userInData[0]->password)) {
 
                 session([
                     'user_id' => $userInData[0]->idUser,
@@ -26,24 +26,20 @@ class loginController extends Controller
 
                 return redirect('/dashboard');
             } else {
-                return view('login', [
-                    'error' => 'Username atau password salah'
-                ]);
+                return redirect('/')->with('error', 'username atau password salah');
             }
         } else {
-            return view('login', [
-                'error' => 'Username atau password salah'
-            ]);
+            return redirect('/')->with('error','akun tidak ditemukan');
         }
     }
 
     public function toDashboard() {
         if(session('role') == 1) {
-            return view('dashboard_admin');
+            return view('components.sAdmin.dashboard');
         } else if(session('role') == 2) {
-            return view('dashboard_manager');
+            return view('dash_layout_manager');
         } else {
-            return view('dashboard_kasir');
+            return view('dash_layout_admin');
         }
     }
 }
