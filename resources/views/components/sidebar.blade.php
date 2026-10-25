@@ -4,8 +4,8 @@ use Livewire\Component;
 
 new class extends Component
 {
-    public function getData() {
-        $this->dispatch('tes');
+    public function getData($data) {
+        $this->dispatch('abc', data: $data);
     }
 };
 ?>
@@ -13,7 +13,10 @@ new class extends Component
 <div>
     <ul>
         <li>
-            <button wire:click='getData'>click me</button>
+            <button wire:click="getData('barang')">click me</button>
+        </li>
+        <li>
+            <button wire:click="getData('users')">click me</button>
         </li>
     </ul>
 </div>

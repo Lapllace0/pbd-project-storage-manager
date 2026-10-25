@@ -35,7 +35,7 @@
             }
             @endif --}}
 
-            @livewire('sAdmin.barang')
+            @livewire('container')
         </main>
     </div>
 </body>

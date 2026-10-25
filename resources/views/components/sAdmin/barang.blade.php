@@ -7,12 +7,10 @@ new class extends Component {
     public $data;
     public $offset = 0;
 
-    #[On('tes')]
     public function getAll()
     {
         $this->data = DB::select('select * from lihat_barang limit 1 offset ?', [$this->offset]);
         $this->offset += 1;
-        dump($this->data);
     }
 };
 ?>
