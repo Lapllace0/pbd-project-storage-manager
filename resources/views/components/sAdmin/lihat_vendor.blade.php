@@ -8,8 +8,12 @@ new class extends Component {
 
     public function getAll()
     {
-        $this->data = DB::select('select * from lihat_users limit 1 offset ?', [$this->offset]);
+        $this->data = DB::select('select * from lihat_vendor limit 1 offset ?', [$this->offset]);
         $this->offset += 1;
+    }
+
+        public function mount() {
+        $this->getAll();
     }
 };
 ?>
@@ -28,13 +32,13 @@ new class extends Component {
                 @foreach ($data as $d)
                     @if ($loop->iteration % 2 == 1)
                         <tr class="trOdd">
-                            <td>{{ $d->USERNAME}}</td>
-                            <td>{{ $d->ROLE}}</td>
+                            <td>{{ $d->{'Nama Vendor'} }}</td>
+                            <td>{{ $d->{'Badan Hukum'} }}</td>
                         </tr>
                     @else
                         <tr class="trEven">
-                            <td>{{ $d->USERNAME}}</td>
-                            <td>{{ $d->ROLE}}</td>
+                            <td>{{ $d->{'Nama Vendor'} }}</td>
+                            <td>{{ $d->{'Badan Hukum'} }}</td>
                         </tr>
                     @endif
                 @endforeach

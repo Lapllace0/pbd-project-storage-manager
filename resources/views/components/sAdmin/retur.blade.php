@@ -1,15 +1,15 @@
 <?php
 
 use Livewire\Component;
-use Livewire\Attributes\On;
 
-new class extends Component {
+new class extends Component
+{
     public $data;
     public $offset = 0;
 
     public function getAll()
     {
-        $this->data = DB::select('select * from lihat_barang limit 1 offset ?', [$this->offset]);
+        $this->data = DB::select('select * from retur limit 1 offset ?', [$this->offset]);
         $this->offset += 1;
     }
 };
@@ -20,9 +20,10 @@ new class extends Component {
     <table class="table">
         <thead class="thead">
             <tr>
-                <th>sd</th>
-                <th>sdasd</th>
-                <th>sdasdasd</th>
+                <th>Id Retur</th>
+                <th>created At</th>
+                <th>Id Penerimaan</th>
+                <th>Id User</th>
             </tr>
         </thead>
         <tbody>
@@ -30,15 +31,17 @@ new class extends Component {
                 @foreach ($data as $d)
                     @if ($loop->iteration % 2 == 1)
                         <tr class="trOdd">
-                            <td>{{ $d->jenis }}</td>
-                            <td>{{ $d->Nama }}</td>
-                            <td>{{ $d->Harga }}</td>
+                            <td>{{ $d->idRetur}}</td>
+                            <td>{{ $d->created_at}}</td>
+                            <td>{{ $d->idPenerimaan}}</td>
+                            <td>{{ $d->idUser}}</td>
                         </tr>
                     @else
                         <tr class="trEven">
-                            <td>{{ $d->jenis }}</td>
-                            <td>{{ $d->Nama }}</td>
-                            <td>{{ $d->Harga }}</td>
+                            <td>{{ $d->idRetur}}</td>
+                            <td>{{ $d->created_at}}</td>
+                            <td>{{ $d->idPenerimaan}}</td>
+                            <td>{{ $d->idUser}}</td>
                         </tr>
                     @endif
                 @endforeach

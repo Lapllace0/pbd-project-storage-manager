@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\login;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use function PHPUnit\Framework\isEmpty;
 
@@ -35,7 +35,7 @@ class loginController extends Controller
 
     public function toDashboard() {
         if(session('role') == 1) {
-            return view('components.sAdmin.dashboard');
+            return view('superAdmin.dashboard');
         } else if(session('role') == 2) {
             return view('dash_layout_manager');
         } else {
