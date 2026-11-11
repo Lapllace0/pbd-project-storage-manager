@@ -40,7 +40,7 @@
                         <a href="{{ route('getUser', 1) }}" class="btn">Users</a>
                     </li>
                     <li>
-                        <a href="{{ route('getVendor', 1) }}" class="btn">Vendor</a>
+                        <a href="{{ route('getVendor', ['all',1]) }}" class="btn">Vendor</a>
                     </li>
                     <li>
                         <a href="{{ route('getRole', 1) }}" class="btn">Role</a>
@@ -55,16 +55,16 @@
                         <a href="{{ route('getSatuan', 1) }}" class="btn">Satuan</a>
                     </li>
                     <li>
-                        <a href="{{ route('getPenerimaan', 1) }}" class="btn">Penerimaan</a>
+                        <a href="{{ route('getPenerimaan', ['all',1]) }}" class="btn">Penerimaan</a>
                     </li>
                     <li>
-                        <a href="{{ route('getDetailPenerimaan', 1) }}" class="btn">Detail Penerimaan</a>
+                        <a href="{{ route('getDetailPenerimaan', ['all',1]) }}" class="btn">Detail Penerimaan</a>
                     </li>
                     <li>
-                        <a href="{{ route('getPengadaan', 1) }}" class="btn">Pengadaan</a>
+                        <a href="{{ route('getPengadaan', ['all',1]) }}" class="btn">Pengadaan</a>
                     </li>
                     <li>
-                        <a href="{{ route('getDetailPengadaan', 1) }}" class="btn">Detail Pengadaan</a>
+                        <a href="{{ route('getDetailPengadaan', ['all',1]) }}" class="btn">Detail Pengadaan</a>
                     </li>
                     <li>
                         <a href="{{ route('getPenjualan', ['all', 1]) }}" class="btn">Penjualan</a>
@@ -207,24 +207,24 @@
         let pageForm = 1
         let dataBarang = @js($dataBarang)
 
-        // document.addEventListener('DOMContentLoaded', () => {
-        //     let flashSuccess = document.querySelector('.flash-container-berhasil')
-        //     let flashFailed = document.querySelector('.flash-container-gagal')
-        //     if (flashSuccess) {
-        //         flashSuccess.classList.add('flash-remove')
-        //         flashSuccess.addEventListener('transitioned', () => {
-        //             flashSuccess.remove()
-        //         })
-        //     }
-        //     if (flashFailed) {
-        //         flashFailed.classList.add('flash-remove')
-        //         flashFailed.addEventListener('transitioned', () => {
-        //             flashSuccess.remove()
-        //         })
-        //     }
+        document.addEventListener('DOMContentLoaded', () => {
+            let flashSuccess = document.querySelector('.flash-container-berhasil')
+            let flashFailed = document.querySelector('.flash-container-gagal')
+            if (flashSuccess) {
+                flashSuccess.classList.add('flash-remove')
+                flashSuccess.addEventListener('transitioned', () => {
+                    flashSuccess.remove()
+                })
+            }
+            if (flashFailed) {
+                flashFailed.classList.add('flash-remove')
+                flashFailed.addEventListener('transitioned', () => {
+                    flashSuccess.remove()
+                })
+            }
 
 
-        // })
+        })
 
         data.addEventListener('click', () => {
             if (sidebar.style.display != 'none') {

@@ -447,3 +447,7 @@ h2 {
     flex-direction: column;
     row-gap: 20px;
 }
+
+.select-vendor-size {
+    font-size: 18px;
+}

@@ -1,10 +1,15 @@
 <?php
 
 use App\Http\Controllers\barangController;
+use App\Http\Controllers\detailPenerimaanController;
+use App\Http\Controllers\detailPengadaanController;
 use App\Http\Controllers\detailPenjualanController;
 use App\Http\Controllers\kartuStokController;
 use App\Http\Controllers\loginController;
+use App\Http\Controllers\penerimaanController;
+use App\Http\Controllers\pengadaanController;
 use App\Http\Controllers\penjualanController;
+use App\Http\Controllers\vendorController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,9 +34,20 @@ Route::get('/dashboard/detail-penjualan/{filter}/{id}', [detailPenjualanControll
 
 Route::post('/detail-penjualan/action', [detailPenjualanController::class, 'actionDetailPenjualan']);
 
+Route::get('/dashboard/vendor/{filter}/{id}', [vendorController::class, 'getAll'])->name('getVendor');
+Route::post('/vendor/action', [vendorController::class, 'actionVendor']);
 
+Route::get('/dashboard/pengadaan/{filter}/{id}', [pengadaanController::class, 'getAll'])->name('getPengadaan');
+Route::post('/pengadaan/action', [pengadaanController::class, 'actionPengadaan']);
 
+Route::get('/dashboard/detail-pengadaan/{filter}/{id}', [detailPengadaanController::class, 'getAll'])->name('getDetailPengadaan');
+Route::post('/detail-pengadaan/action', [detailPengadaanController::class, 'actionDetailPengadaan']);
 
+Route::get('/dashboard/penerimaan/{filter}/{id}', [penerimaanController::class, 'getAll'])->name('getPenerimaan');
+Route::post('/penerimaan/action', [penerimaanController::class, 'actionPenerimaan']);
+
+Route::get('/dashboard/detail-penerimaan/{filter}/{id}', [detailPenerimaanController::class, 'getAll'])->name('getDetailPenerimaan');
+Route::post('/detail-penerimaan/action', [detailPenerimaanController::class, 'actionDetailPenerimaan']);
 
 
 
@@ -39,7 +55,6 @@ Route::post('/detail-penjualan/action', [detailPenjualanController::class, 'acti
 Route::get('/dashboard/users/{id}', [barangController::class, 'getAll'])->name('getUser');
 
 
-Route::get('/dashboard/vendor/{id}', [barangController::class, 'getAll'])->name('getVendor');
 
 Route::get('/dashboard/Role/{id}', [barangController::class, 'getAll'])->name('getRole');
 
