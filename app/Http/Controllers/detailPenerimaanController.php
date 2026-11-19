@@ -8,52 +8,21 @@ use Throwable;
 
 class detailPenerimaanController extends Controller
 {
-    public function getAll($filter, $id)
+    public function getAll($idPenerimaan, $page)
     {
         $data = [];
         $nextData = 0;
-        $offset = ($id - 1) * 5;
-        $page = $id;
+        $offset = ($page - 1) * 5;
+        $page = $page;
 
-        if ($filter == 'all') {
-            $data = detailPenerimaan::getDataAll($offset);
-            $nextData = detailPenerimaan::getNextDataAll($offset);
-        } elseif ($filter == 'masuk') {
-            $data = detailPenerimaan::getDataMasuk($offset);
-            $nextData = detailPenerimaan::getNextDataMasuk($offset);
-        } elseif ($filter == 'keluar') {
-            $data = detailPenerimaan::getDataKeluar($offset);
-            $nextData = detailPenerimaan::getNextDataKeluar($offset);
-        }
 
-        // if ($filter == 'all') {
-        //     $nextFilter = 'masuk';
-        // } elseif ($filter == 'masuk') {
-        //     $nextFilter = 'keluar';
-        // } elseif ($filter == 'keluar') {
-        //     $nextFilter = 'all';
-        // }
+        $data = detailPenerimaan::getDataAll($idPenerimaan, $offset);
+        $nextData = detailPenerimaan::getNextDataAll($idPenerimaan, $offset);
 
-        // $dataMargin = penjualan::getBarang();
 
-        // yang di comment belum dimasukin di parameter return view
 
-        $dataBarang = detailPenerimaan::getBarang();
-        $dataVendor = detailPenerimaan::getVendor();
 
-        return view('superAdmin.detail_penerimaan', compact('data', 'nextData', 'page', 'filter', 'dataBarang', 'dataVendor'));
+        return view('superAdmin.detail_penerimaan', compact('data', 'nextData', 'page', 'idPenerimaan'));
     }
 
-    public function actionDetailPengadaan(Request $request)
-    {
-        $dataArray = json_decode($request->dataArray, false);
-        $idUser = (int) session('user_id');
-
-        try {
-            detailPenerimaan::insertData($dataArray, $idUser, $request->idVendor);
-            return redirect()->route('getDetailPengadaan', [$request->filter, 1])->with('success', 'data berhasil ditambahkan');
-        } catch (Throwable $e) {
-            return redirect()->route('getDetailPengadaan', [$request->filter, 1])->with('failed', $e->getMessage());
-        }
-    }
 }

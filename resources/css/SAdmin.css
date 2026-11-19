@@ -84,13 +84,13 @@ tbody {
 ul {
     display: flex;
     flex-direction: column;
-    row-gap: 20px;
+    row-gap: 30px;
 }
 
 .btn {
     width: fit-content;
     height: fit-content;
-    font-size: 23px;
+    font-size: 25px;
     border-style: none;
     text-decoration: none;
     background-color: transparent;
@@ -187,12 +187,23 @@ th.editData {
     margin-top: 100px;
 }
 
+.detail-position {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-inline: auto;
+    margin-top: 70px;
+}
+
 .page {
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-right: 10px;
+    width: 55px;
 }
 
 .bg-modal {
@@ -212,7 +223,7 @@ th.editData {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 600px;
+    width: 700px;
     height: 500px;
     background-color: white;
 }
@@ -237,7 +248,7 @@ th.editData {
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 400px;
+    width: 600px;
     height: auto;
     row-gap: 20px;
     justify-content: center;
@@ -303,7 +314,8 @@ h2 {
 .button-form-edit {
     display: flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -312,6 +324,7 @@ h2 {
     height: 30px;
     border-style: none;
     border-radius: 4px;
+    width: 70px;
 }
 
 .update-data:hover {
@@ -371,7 +384,7 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 3s ease-out;
+    transition: all 5s ease-out;
 }
 
 .flash-remove {
@@ -399,6 +412,20 @@ h2 {
     text-decoration: none;
     border-radius: 4px;
     border: 1px solid rgb(182, 182, 182);
+    font-weight: 600;
+    color: black;
+}
+
+.hidden-filter {
+        margin-right: auto;
+    height: 25px;
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    text-decoration: none;
+    border-radius: 4px;
     font-weight: 600;
     color: black;
 }
@@ -450,4 +477,152 @@ h2 {
 
 .select-vendor-size {
     font-size: 18px;
+}
+
+.select-id_pengadaan-size {
+    font-size: 18px;
+}
+
+.table-title {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    font-size: 30px;
+    bottom: 50px;
+}
+
+.table-id {
+    width: 100%;
+}
+
+.detail-transaksi {
+    text-decoration: none;
+    color: black;
+    background-color: rgb(0, 182, 0);
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.hapus-pengadaan {
+    width: 200px;
+    height: 30px;
+    background-color: red;
+    border-style: none;
+    border-radius: 4px;
+    color: white;
+}
+.hapus-pengadaan:hover {
+    cursor: pointer;
+}
+
+#modalDelete {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 200px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 4px;
+    row-gap: 15px;
+}
+
+.container-form-delete {
+    display: flex;
+    column-gap: 70px;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-cancel {
+    width: 70px;
+    height: 30px;
+}
+
+.button-cancel:hover {
+    cursor: pointer;
+}
+
+.button-delete {
+    width: 70px;
+    height: 30px;
+    background-color: red;
+    border-style: none;
+    border-radius: 4px;
+    /* border: 1px solid black; */
+}
+
+.button-delete:hover {
+    cursor: pointer;
+    background-color: rgb(212, 0, 0);
+    color: white;
+}
+
+.kembali {
+    text-decoration: none;
+    color: black;
+    position: relative;
+    left: 10px;
+}
+
+#pilihIdPengadaan {
+    width: fit-content;
+}
+
+#simpanPenerimaan {
+    width: fit-content;
+    font-size: 15px;
+}
+
+.input-form-add {
+    display: flex;
+    height: 300px;
+    width: 600px;
+    border: 1px solid black;
+    row-gap: 20px;
+    overflow-y: auto;
+    padding-left: 10px;
+    padding-top: 10px;
+    margin-right: 10px;
+    flex-direction: column;
+}
+
+.label-data-input-penerimaan {
+    /* display: block; */
+    position: relative;
+    height: fit-content;
+    margin: 0;
+    width: 340px;
+}
+
+.input-harga-satuan-penerimaan {
+    position: relative;
+    width: 110px;
+    height: fit-content;
+    margin-right: 5px;
+}
+
+.input-jumlah-penerimaan {
+    position: relative;
+    width: 110px;
+    height: fit-content;
+}
+
+.container-input-penerimaan {
+    display: flex;
+    height: fit-content;
+    width: auto;
+}
+
+.kembali {
+    margin: 0;
+}
+
+.container-kembali {
+    margin: 0;
+    margin-top: 10px;
 }

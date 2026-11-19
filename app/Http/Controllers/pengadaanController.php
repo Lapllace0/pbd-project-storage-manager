@@ -17,45 +17,38 @@ class pengadaanController extends Controller
         if ($filter == 'all') {
             $data = pengadaan::getDataAll($offset);
             $nextData = pengadaan::getNextDataAll($offset);
-        } else {
+        } elseif ($filter == 'proses') {
             $data = pengadaan::getDataActive($offset);
             $nextData = pengadaan::getNextDataActive($offset);
+            } else {
+            $data = pengadaan::getDataDone($offset);
+            $nextData = pengadaan::getNextDataDone($offset);
         }
 
+        $barang = pengadaan::getBarang();
         $vendor = pengadaan::getVendor();
 
         if ($filter == 'all') {
-            $nextFilter = 'active';
+            $nextFilter = 'proses';
+        } elseif ($filter == 'proses') {
+            $nextFilter = 'selesai';
         } else {
             $nextFilter = 'all';
         }
 
-        return view('superAdmin.pengadaan', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'vendor'));
+        return view('superAdmin.pengadaan', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'vendor', 'barang'));
     }
 
     public function actionPengadaan(Request $request)
     {
-        if ($request->action == 'update') {
-            $status = pengadaan::updatePengadaan($request->id,$request->status, $request->vendor, $request->subTotal_nilai);
-            if ($status) {
-                return redirect()->route('getPengadaan', [$request->filter, 1])->with('success', 'update data berhasil');
-            } else {
-                return redirect()->route('getPengadaan', [$request->filter, 1])->with('failed', 'update data gagal');
-            }
-        } elseif ($request->action == 'delete') {
-            $status = pengadaan::deletePengadaan($request->id);
-            if ($status) {
-                return redirect()->route('getPengadaan', [$request->filter, 1])->with('success', 'hapus data berhasil');
-            } else {
-                return redirect()->route('getPengadaan', [$request->filter, 1])->with('failed', 'hapus data gagal');
-            }
-        } elseif ($request->action == 'add') {
-            $status = pengadaan::addPengadaan(session('user_id'), $request->status, $request->vendor, $request->subTotal_nilai);
-            if ($status) {
-                return redirect()->route('getPengadaan', [$request->filter, 1])->with('success', 'data berhasil ditambahkan');
-            } else {
-                return redirect()->route('getPengadaan', [$request->filter, 1])->with('failed', 'data gagal ditambahkan');
-            }
+        $dataArray = json_decode($request->dataArray, false);
+        $idUser = (int) session('user_id');
+
+        try {
+            pengadaan::insertData($dataArray, $idUser, $request->idVendor);
+            return redirect()->route('getPengadaan', [$request->filter, 1])->with('success', 'data berhasil ditambahkan');
+        } catch (\Exception $e) {
+            return redirect()->route('getPengadaan', [$request->filter, 1])->with('failed', $e->getMessage());
         }
     }
 }

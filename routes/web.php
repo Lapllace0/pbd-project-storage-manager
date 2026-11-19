@@ -6,10 +6,15 @@ use App\Http\Controllers\detailPengadaanController;
 use App\Http\Controllers\detailPenjualanController;
 use App\Http\Controllers\kartuStokController;
 use App\Http\Controllers\loginController;
+use App\Http\Controllers\marginPenjualanController;
 use App\Http\Controllers\penerimaanController;
 use App\Http\Controllers\pengadaanController;
 use App\Http\Controllers\penjualanController;
+use App\Http\Controllers\roleController;
+use App\Http\Controllers\satuanController;
+use App\Http\Controllers\usersController;
 use App\Http\Controllers\vendorController;
+use App\Models\marginPenjualan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,53 +33,39 @@ Route::get('/dashboard/kartu-stok/{filter}/{id}', [kartuStokController::class, '
 
 Route::post('/kartu-stok/action', [kartuStokController::class, 'actionStock']);
 
-Route::get('/dashboard/penjualan/{filter}/{id}', [penjualanController::class, 'getAll'])->name('getPenjualan');
-
-Route::get('/dashboard/detail-penjualan/{filter}/{id}', [detailPenjualanController::class, 'getAll'])->name('getDetailPenjualan');
-
-Route::post('/detail-penjualan/action', [detailPenjualanController::class, 'actionDetailPenjualan']);
-
 Route::get('/dashboard/vendor/{filter}/{id}', [vendorController::class, 'getAll'])->name('getVendor');
 Route::post('/vendor/action', [vendorController::class, 'actionVendor']);
 
-Route::get('/dashboard/pengadaan/{filter}/{id}', [pengadaanController::class, 'getAll'])->name('getPengadaan');
+Route::get('/dashboard/pengadaan/{filter}/{page}', [pengadaanController::class, 'getAll'])->name('getPengadaan');
 Route::post('/pengadaan/action', [pengadaanController::class, 'actionPengadaan']);
-
-Route::get('/dashboard/detail-pengadaan/{filter}/{id}', [detailPengadaanController::class, 'getAll'])->name('getDetailPengadaan');
+Route::get('/dashboard/detail-pengadaan/{idPengadaan}/{page}', [detailPengadaanController::class, 'getAll'])->name('getDetailPengadaan');
 Route::post('/detail-pengadaan/action', [detailPengadaanController::class, 'actionDetailPengadaan']);
 
-Route::get('/dashboard/penerimaan/{filter}/{id}', [penerimaanController::class, 'getAll'])->name('getPenerimaan');
-Route::post('/penerimaan/action', [penerimaanController::class, 'actionPenerimaan']);
 
-Route::get('/dashboard/detail-penerimaan/{filter}/{id}', [detailPenerimaanController::class, 'getAll'])->name('getDetailPenerimaan');
+Route::get('/dashboard/penerimaan/{filter}/{page}', [penerimaanController::class, 'getAll'])->name('getPenerimaan');
+Route::post('/penerimaan/action/{idPengadaan}', [penerimaanController::class, 'getBarangPengadaanAktif']);
+Route::post('/penerimaan/action', [penerimaanController::class, 'actionPenerimaan']);
+Route::get('/penerimaan/getBarang/{idPengadaan}', [penerimaanController::class, 'getBarang']);
+Route::get('/dashboard/detail-penerimaan/{idPenerimaan}/{page}', [detailPenerimaanController::class, 'getAll'])->name('getDetailPenerimaan');
 Route::post('/detail-penerimaan/action', [detailPenerimaanController::class, 'actionDetailPenerimaan']);
 
 
+Route::get('/dashboard/penjualan/{page}', [penjualanController::class, 'getAll'])->name('getPenjualan');
+Route::post('/penjualan/action', [penjualanController::class, 'actionPenjualan']);
+Route::get('/dashboard/detail-penjualan/{idPenjualan}/{page}', [detailPenjualanController::class, 'getAll'])->name('getDetailPenjualan');
+Route::post('/detail-penjualan/action', [detailPenjualanController::class, 'actionDetailPenjualan']);
 
 
-Route::get('/dashboard/users/{id}', [barangController::class, 'getAll'])->name('getUser');
 
 
+Route::post('/users/action', [usersController::class, 'actionUsers']);
+Route::get('/dashboard/users/{page}', [usersController::class, 'getAll'])->name('getUser');
 
-Route::get('/dashboard/Role/{id}', [barangController::class, 'getAll'])->name('getRole');
+Route::post('/role/action', [roleController::class, 'actionRole']);
+Route::get('/dashboard/role/{page}', [roleController::class, 'getAll'])->name('getRole');
 
+Route::post('/satuan/action', [satuanController::class, 'actionSatuan']);
+Route::get('/dashboard/satuan/{filter}/{page}', [satuanController::class, 'getAll'])->name('getSatuan');
 
-Route::get('/dashboard/margin/{id}', [barangController::class, 'getAll'])->name('getMargin');
-
-Route::get('/dashboard/satuan/{id}', [barangController::class, 'getAll'])->name('getSatuan');
-
-Route::get('/dashboard/penerimaan/{id}', [barangController::class, 'getAll'])->name('getPenerimaan');
-
-Route::get('/dashboard/detail-penerimaan/{id}', [barangController::class, 'getAll'])->name('getDetailPenerimaan');
-
-Route::get('/dashboard/pengadaan/{id}', [barangController::class, 'getAll'])->name('getPengadaan');
-
-Route::get('/dashboard/detail-pengadaan/{id}', [barangController::class, 'getAll'])->name('getDetailPengadaan');
-
-Route::get('/dashboard/penjualan/{id}', [barangController::class, 'getAll'])->name('getPenjualan');
-
-Route::get('/dashboard/detail-penjualan/{id}', [barangController::class, 'getAll'])->name('getDetailPenjualan');
-
-Route::get('/dashboard/retur/{id}', [barangController::class, 'getAll'])->name('getRetur');
-
-Route::get('/dashboard/detail-retur/{id}', [barangController::class, 'getAll'])->name('getDetailRetur');
+Route::post('/margin-penjualan/action', [marginPenjualanController::class, 'actionMarginPenjualan']);
+Route::get('/dashboard/margin-penjualan/{filter}/{page}', [marginPenjualanController::class, 'getAll'])->name('getMarginPenjualan');

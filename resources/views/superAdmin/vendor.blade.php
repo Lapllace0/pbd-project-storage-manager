@@ -49,34 +49,19 @@
                         <a href="{{ route('getKartuStok', ['all', 1]) }}" class="btn">Kartu Stok</a>
                     </li>
                     <li>
-                        <a href="{{ route('getMargin', 1) }}" class="btn">Margin</a>
+                        <a href="{{ route('getMarginPenjualan', ['all', 1]) }}" class="btn">Margin</a>
                     </li>
                     <li>
-                        <a href="{{ route('getSatuan', 1) }}" class="btn">Satuan</a>
+                        <a href="{{ route('getSatuan', ['all', 1]) }}" class="btn">Satuan</a>
                     </li>
                     <li>
-                        <a href="{{ route('getPenerimaan', ['all',1]) }}" class="btn">Penerimaan</a>
+                        <a href="{{ route('getPenerimaan', ['all', 1]) }}" class="btn">Penerimaan</a>
                     </li>
                     <li>
-                        <a href="{{ route('getDetailPenerimaan', ['all',1]) }}" class="btn">Detail Penerimaan</a>
+                        <a href="{{ route('getPengadaan', ['all', 1]) }}" class="btn">Pengadaan</a>
                     </li>
                     <li>
-                        <a href="{{ route('getPengadaan', ['all',1]) }}" class="btn">Pengadaan</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('getDetailPengadaan', ['all',1]) }}" class="btn">Detail Pengadaan</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('getPenjualan', ['all', 1]) }}" class="btn">Penjualan</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('getDetailPenjualan', ['all', 1]) }}" class="btn">Detail Penjualan</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('getRetur', 1) }}" class="btn">Retur</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('getDetailRetur', 1) }}" class="btn">Detail Retur</a>
+                        <a href="{{ route('getPenjualan', 1) }}" class="btn">Penjualan</a>
                     </li>
                 </ul>
             </div>
@@ -196,8 +181,6 @@
                                 </select>
                             </div>
                             <div class="button-form-edit">
-                                <button type="submit" name="action" value="delete"
-                                    class="delete-data">Delete</button>
                                 <button type="submit" name="action" value="update"
                                     class="update-data">Update</button>
                             </div>

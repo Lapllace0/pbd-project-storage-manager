@@ -8,40 +8,19 @@ use Illuminate\Support\Facades\DB;
 
 class detailPenjualan extends Model
 {
-    public static function getDataAll(int $offset)
+    public static function getDataAll($idPenjualan, $offset)
     {
-        return DB::select('select * from lihat_detail_penjualan limit 5 offset ?', [$offset]);
+        return DB::select('select * from lihat_detail_penjualan where idPenjualan = ? limit 5 offset ?', [$idPenjualan,$offset]);
     }
 
-    public static function getNextDataAll(int $offset)
+    public static function getNextDataAll($idPenjualan, $offset)
     {
         return DB::select(
             'with dataA as (
-            select * from lihat_detail_penjualan limit 5 offset ?)
+            select * from lihat_detail_penjualan where idPenjualan = ? limit 5 offset ?)
             select count(*) as total from dataA',
-            [$offset + 5],
+            [$idPenjualan,$offset + 5]
         );
     }
 
-    public static function getBarang() {
-        return DB::select('select idBarang, nama from barang');
-    }
-
-    public static function insertData($dataArray, $idUser) {
-        DB::beginTransaction();
-        try {
-            $idPenjualan = DB::select('select insertReturnDPId(?) as idPenjualan', [$idUser]);
-            foreach ($dataArray as $d) {
-                DB::select('CALL insertDetailPenjualan(?,?,?)', [$d->jumlah, $idPenjualan[0]->idPenjualan, $d->idBarang]);
-            }
-
-            DB::select('CALL updatePenjualan(?)', [$idPenjualan[0]->idPenjualan]);
-
-            DB::commit();
-
-        } catch (QueryException $message) {
-            DB::rollBack();
-            throw $message;
-        }
-    }
 }

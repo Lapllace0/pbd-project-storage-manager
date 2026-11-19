@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    @vite(['resources/css/SAdmin.css'])
+    @vite(['resources/css/SAdmin.css', 'resources/js/app.js'])
 </head>
 
 <body>
@@ -40,7 +40,7 @@
                         <a href="{{ route('getUser', 1) }}" class="btn">Users</a>
                     </li>
                     <li>
-                        <a href="{{ route('getVendor', ['all',1]) }}" class="btn">Vendor</a>
+                        <a href="{{ route('getVendor', ['all', 1]) }}" class="btn">Vendor</a>
                     </li>
                     <li>
                         <a href="{{ route('getRole', 1) }}" class="btn">Role</a>
@@ -49,55 +49,42 @@
                         <a href="{{ route('getKartuStok', ['all', 1]) }}" class="btn">Kartu Stok</a>
                     </li>
                     <li>
-                        <a href="{{ route('getMargin', 1) }}" class="btn">Margin</a>
+                        <a href="{{ route('getMarginPenjualan', ['all', 1]) }}" class="btn">Margin</a>
                     </li>
                     <li>
-                        <a href="{{ route('getSatuan', 1) }}" class="btn">Satuan</a>
+                        <a href="{{ route('getSatuan', ['all', 1]) }}" class="btn">Satuan</a>
                     </li>
                     <li>
-                        <a href="{{ route('getPenerimaan', ['all',1]) }}" class="btn">Penerimaan</a>
+                        <a href="{{ route('getPenerimaan', ['all', 1]) }}" class="btn">Penerimaan</a>
                     </li>
                     <li>
-                        <a href="{{ route('getDetailPenerimaan', ['all',1]) }}" class="btn">Detail Penerimaan</a>
+                        <a href="{{ route('getPengadaan', ['all', 1]) }}" class="btn">Pengadaan</a>
                     </li>
                     <li>
-                        <a href="{{ route('getPengadaan', ['all',1]) }}" class="btn">Pengadaan</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('getDetailPengadaan', ['all',1]) }}" class="btn">Detail Pengadaan</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('getPenjualan', ['all', 1]) }}" class="btn btn-active">Penjualan</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('getDetailPenjualan', ['all', 1]) }}" class="btn">Detail Penjualan</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('getRetur', 1) }}" class="btn">Retur</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('getDetailRetur', 1) }}" class="btn">Detail Retur</a>
+                        <a href="{{ route('getPenjualan', 1) }}" class="btn  btn-active">Penjualan</a>
                     </li>
                 </ul>
             </div>
         </aside>
 
         <main class="main-content">
+
             <div class="position">
 
+
                 <div class="navPanel">
-                    <a href="{{ route('getPenjualan', [$filter, 1]) }}" class="button-filter">{{ $filter }}</a>
+                    <div class="hidden-filter"></div>
                     <div class="navPage">
                         <h5 class="page">PAGE: {{ $page }}</h5>
                         @if ($page == 1)
                             <a class="disabled-button">Prev</a>
                         @else
-                            <a href="{{ route('getKartuStok', [$filter, $page - 1]) }}" class="prevPage">Prev</a>
+                            <a href="{{ route('getPenjualan', $page - 1) }}" class="prevPage">Prev</a>
                         @endif
                         @if ($nextData[0]->total < 1)
                             <a class="disabled-button">Next</a>
                         @else
-                            <a href="{{ route('getKartuStok', [$filter, $page + 1]) }}" class="nextPage">Next</a>
+                            <a href="{{ route('getPenjualan', $page + 1) }}" class="nextPage">Next</a>
                         @endif
                     </div>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="add-button"
@@ -111,13 +98,13 @@
                     <thead class="thead">
                         <tr>
                             <th>Id Penjualan</th>
-                            <th>Created At</th>
+                            <th>Kapan dibuat</th>
+                            <th>Id User</th>
+                            <th>margin (%)</th>
                             <th>SubTotal Nilai</th>
                             <th>PPN</th>
                             <th>Total Nilai</th>
-                            <th>Id User</th>
-                            <th>Persen</th>
-                            <th class="editData">edit</th>
+                            <th class="editData">Detail</th>
                         </tr>
                     </thead>
                     <tbody class="tbody">
@@ -127,35 +114,25 @@
                                     <tr class="trOdd datarow" id="{{ $d->idPenjualan }}">
                                         <td>{{ $d->idPenjualan }}</td>
                                         <td>{{ $d->created_at }}</td>
+                                        <td>{{ $d->idUser }}</td>
+                                        <td>{{ $d->persen }}</td>
                                         <td>{{ $d->subTotal_nilai }}</td>
                                         <td>{{ $d->ppn }}</td>
                                         <td>{{ $d->total_nilai }}</td>
-                                        <td>{{ $d->idUser }}</td>
-                                        <td>{{ $d->persen }}</td>
-                                        <td><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="24px"
-                                                width="24px" class="svgEdit"
-                                                onclick="showModal(@js($d->idPenjualan),@js($d->subTotal_nilai)@js($d->idUser))">
-                                                <path
-                                                    d="M5,21q-0.83,0-1.41-0.59T3,19V5Q3,4.17 3.59,3.59T5,3h8.93l-2,2H5V19H19V12.05l2-2V19q0,0.82-0.59,1.41T19,21H5Zm7-9ZM9,15V10.75l9.18-9.18q0.3-0.3 0.68-0.45q0.38-0.15 0.75-0.15q0.4,0 0.76,0.15q0.36,0.15 0.66,0.45L22.43,3q0.28,0.3 0.43,0.66T23,4.4T22.86,5.14T22.43,5.8L13.25,15H9ZM21.03,4.4L19.63,3l1.4,1.4ZM11,13h1.4l5.8-5.8L17.5,6.5L16.78,5.8L11,11.58V13Zm6.5-6.5L16.78,5.8L17.5,6.5l0.7,0.7L17.5,6.5Z" />
-                                            </svg>
-                                        </td>
+                                        <td> <a href="{{ route('getDetailPenjualan', [$d->idPenjualan, 1]) }}"
+                                                class="detail-transaksi">Detail</a></td>
                                     </tr>
                                 @else
                                     <tr class="trEven datarow" id="{{ $d->idPenjualan }}">
                                         <td>{{ $d->idPenjualan }}</td>
                                         <td>{{ $d->created_at }}</td>
+                                        <td>{{ $d->idUser }}</td>
+                                        <td>{{ $d->persen }}</td>
                                         <td>{{ $d->subTotal_nilai }}</td>
                                         <td>{{ $d->ppn }}</td>
                                         <td>{{ $d->total_nilai }}</td>
-                                        <td>{{ $d->idUser }}</td>
-                                        <td>{{ $d->persen }}</td>
-                                        <td><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="24px"
-                                                width="24px" class="svgEdit"
-                                                onclick="showModal(@js($d->idPenjualan),@js($d->subTotal_nilai)@js($d->idUser))">
-                                                <path
-                                                    d="M5,21q-0.83,0-1.41-0.59T3,19V5Q3,4.17 3.59,3.59T5,3h8.93l-2,2H5V19H19V12.05l2-2V19q0,0.82-0.59,1.41T19,21H5Zm7-9ZM9,15V10.75l9.18-9.18q0.3-0.3 0.68-0.45q0.38-0.15 0.75-0.15q0.4,0 0.76,0.15q0.36,0.15 0.66,0.45L22.43,3q0.28,0.3 0.43,0.66T23,4.4T22.86,5.14T22.43,5.8L13.25,15H9ZM21.03,4.4L19.63,3l1.4,1.4ZM11,13h1.4l5.8-5.8L17.5,6.5L16.78,5.8L11,11.58V13Zm6.5-6.5L16.78,5.8L17.5,6.5l0.7,0.7L17.5,6.5Z" />
-                                            </svg>
-                                        </td>
+                                        <td> <a href="{{ route('getDetailPenjualan', [$d->idPenjualan, 1]) }}"
+                                                class="detail-transaksi">Detail</a></td>
                                     </tr>
                                 @endif
                             @endforeach
@@ -171,27 +148,21 @@
                         </svg>
                         <form action="/penjualan/action" method="POST" class="edit-data">
                             @csrf
-                            <input type="hidden" value="{{ $filter }}" name="filter">
-                            <input type="hidden" value="" id="idPenjualan" name="id">
-                            <div class="group-edit-data"">
-                                <h2 class="data-title">subTotal Nilai<span class="separator">:</span></h2>
-                                <input type="number" class="input-form" id="subTotalNilai" name="subTotalNilai"
-                                    value="0" required>
+                            <input type="hidden" value="" id="dataArray" name="dataArray">
+
+                            <div class="add-form-dp">
+
                             </div>
-                            <div class="group-edit-data">
-                                <h2 class="data-title">Id User<span class="separator">:</span></h2>
-                                <input type="number" class="input-form" id="idUser" name="idUser"
-                                    value="0" required>
-                            </div>
-                            <div class="button-form-edit">
-                                <button type="submit" name="action" value="delete"
-                                    class="delete-data">Delete</button>
-                                <button type="submit" name="action" value="update"
-                                    class="update-data">Update</button>
-                            </div>
+
                             <div class="button-form-add">
-                                <button type="submit" name="action" value="add" class="add-data">Add
-                                    Data</button>
+                                <div class="change-page-form-button">
+                                    <button onclick="getPreviousForm()" id="form-prev-button"
+                                        type="button">previous</button>
+                                    <button onclick="getNextForm()" id="form-next-button" type="button">next</button>
+                                    <button type="submit" name="action" value="add" class="add-data"
+                                        onclick="prepareSubmit()">Add
+                                        All Data</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -208,19 +179,19 @@
         document.addEventListener('DOMContentLoaded', () => {
             let flashSuccess = document.querySelector('.flash-container-berhasil')
             let flashFailed = document.querySelector('.flash-container-gagal')
-            // if (flashSuccess) {
-            //     console.log('updet berhasil')
-            //     flashSuccess.classList.add('flash-remove')
-            //     flashSuccess.addEventListener('transitioned', () => {
-            //         flashSuccess.remove()
-            //     })
-            // }
-            // if (flashFailed) {
-            //     flashFailed.classList.add('flash-remove')
-            //     flashFailed.addEventListener('transitioned', () => {
-            //         flashSuccess.remove()
-            //     })
-            // }
+            if (flashSuccess) {
+                console.log('updet berhasil')
+                flashSuccess.classList.add('flash-remove')
+                flashSuccess.addEventListener('transitioned', () => {
+                    flashSuccess.remove()
+                })
+            }
+            if (flashFailed) {
+                flashFailed.classList.add('flash-remove')
+                flashFailed.addEventListener('transitioned', () => {
+                    flashFailed.remove()
+                })
+            }
 
 
         })
@@ -235,50 +206,322 @@
         })
 
 
-        function showModal(p_idPenjualan, p_subTotalNilai, p_idUser) {
-            let bgModal = document.querySelector('.bg-modal')
-            let buttonAdd = document.querySelector('.button-form-add')
-            let buttonEdit = document.querySelector('.button-form-edit')
-            let defaultSelect = document.querySelectorAll('.input-default-value')
-            let formWidth = document.querySelector('.edit-data')
+        let pageForm = 1
+        let dataBarang = @js($barang)
 
-            formWidth.style.width = '500px'
-            defaultSelect.forEach(element => {
-                element.style.display = 'none'
-            });
-
-            bgModal.style.display = 'flex'
-            buttonAdd.style.display = 'none'
-            buttonEdit.style.display = 'flex'
-
-            let idPenjualan = document.getElementById('idPenjualan')
-            let subTotalNilai = document.getElementById('subTotalNilai')
-            let idUser = document.getElementById('idUser')
+        let dataInput = []
+        let divInput = document.querySelector('.add-form-dp')
 
 
-            idPenjualan.value = p_idPenjualan
-            subTotalNilai.value = p_subTotalNilai
-            idUser.value = p_idUser
-        }
+
 
         function showModalAdd() {
             let bgModal = document.querySelector('.bg-modal')
-            let buttonEdit = document.querySelector('.button-form-edit')
             let inputForm = document.querySelectorAll('.input-form')
             let buttonAdd = document.querySelector('.button-form-add')
+            let prevButton = document.getElementById('form-prev-button')
+            let nextButton = document.getElementById('form-next-button')
+            pageForm = 1
+
+            dataInput = []
+
             bgModal.style.display = 'flex'
-            buttonEdit.style.display = 'none'
             buttonAdd.style.display = 'flex'
 
             inputForm.forEach(element => {
                 element.value = ''
             })
 
+            let dataBarangHTML = ''
+            dataBarang.forEach((data) => {
+                dataBarangHTML += `<option value="${data.idBarang}">${data.nama}</option> `
+            })
+
+            divInput.innerHTML = `
+            <div class="group-edit-data">
+                <h2 class="data-title">Nama Barang <span class="separator">:</span></h2>
+                <select name="idBarang" id="idBarang" class="input-form input-nama-barang input-page${pageForm}" required>
+                    <option value="" class="input-default-value" disabled selected hidden>select</option>
+                    ${dataBarangHTML}
+                    </select>
+                    </div>
+                    <div class="group-edit-data">
+                        <h2 class="data-title">Jumlah<span class="separator">:</span></h2>
+                        <input type="number" class="input-form input-page${pageForm}" id="jumlah" name="jumlah"
+                        value="" required min='0'>
+                        </div>
+            `
+
+            prevButton.disabled = true
+            nextButton.disabled = true
+
+            inputNamaBarang = document.getElementById('idBarang')
+            inputJumlahBarang = document.getElementById('jumlah')
+            let maxInput
+
+            let namaFilled = false
+            let jumlahBarang = false
+            inputNamaBarang.addEventListener('input', (e) => {
+                maxInput = ''
+                maxInput = dataBarang.findIndex(e => e.idBarang == inputNamaBarang.value)
+                console.log(dataBarang[maxInput].stock)
+                inputJumlahBarang.placeholder = `max ${dataBarang[maxInput].stock}`
+
+                if (e.target.value != '' && jumlahBarang == true) {
+                    nextButton.disabled = false
+                    console.log('tes')
+                } else if (e.target.value != '') {
+                    namaFilled = true
+                }
+
+            })
+
+            inputJumlahBarang.addEventListener('input', (e) => {
+                console.log(e.target.value)
+                if (e.target.value != 0 && namaFilled == true && e.target.value != '') {
+                    nextButton.disabled = false
+                } else if (e.target.value != '' && e.target.value != 0) {
+                    jumlahBarang = true
+                } else {
+                    jumlahBarang = false
+                    nextButton.disabled = true
+                }
+            })
+        }
+
+
+        function getPreviousForm() {
+            let inputNamaBarang = document.getElementById('idBarang')
+            let inputJumlahBarang = document.getElementById('jumlah')
+            let prevButton = document.getElementById('form-prev-button')
+            let nextButton = document.getElementById('form-next-button')
+
+            if (inputNamaBarang.value != '' && inputJumlahBarang.value != 0) {
+                dataInput[pageForm - 1] = {
+                    'idBarang': inputNamaBarang.value,
+                    'jumlah': Number(inputJumlahBarang.value)
+                }
+            }
+
+
+            pageForm -= 1
+
+            if (pageForm > 1) {
+                prevButton.disabled = false
+            } else {
+                prevButton.disabled = true
+            }
+
+            let dataBarangHTML = ''
+            let totalBarang = 0
+            if (dataInput[pageForm - 1] != undefined) {
+                dataBarang.forEach((data) => {
+                    if (dataInput[pageForm - 1].idBarang == data.idBarang) {
+                        dataBarangHTML += `<option value="${data.idBarang}" selected>${data.nama}</option> `
+                        totalBarang = Number(dataInput[pageForm - 1].jumlah)
+                    } else {
+                        dataBarangHTML += `<option value="${data.idBarang}">${data.nama}</option> `
+                    }
+                })
+                divInput.innerHTML = `
+                <div class="group-edit-data">
+                    <h2 class="data-title">Nama Barang <span class="separator">:</span></h2>
+                    <select name="idBarang" id="idBarang" class="input-form input-nama-barang input-page${pageForm}" required>
+                        ${dataBarangHTML}
+                        </select>
+                        </div>
+                        <div class="group-edit-data">
+                            <h2 class="data-title">Jumlah<span class="separator">:</span></h2>
+                            <input type="number" class="input-form input-page${pageForm}" id="jumlah" name="jumlah"
+                            value="${totalBarang}" required min='0'>
+                            </div>
+                            `
+            } else {
+                dataBarang.forEach((data) => {
+                    dataBarangHTML += `<option value="${data.idBarang}">${data.nama}</option> `
+                })
+
+                divInput.innerHTML = `
+                            <div class="group-edit-data">
+                                <h2 class="data-title">Nama Barang <span class="separator">:</span></h2>
+                                <select name="idBarang" id="idBarang" class="input-form input-nama-barang input-page${pageForm}" required>
+                                    <option value="" class="input-default-value" disabled selected hidden>select</option>
+                                    ${dataBarangHTML}
+                                    </select>
+                                    </div>
+                                    <div class="group-edit-data">
+                                        <h2 class="data-title">Jumlah<span class="separator">:</span></h2>
+                                        <input type="number" class="input-form input-page${pageForm}" id="jumlah" name="jumlah"
+                                        value="" required min='0'>
+                                        </div>
+                                        `
+            }
+
+            inputNamaBarang = document.getElementById('idBarang')
+            inputJumlahBarang = document.getElementById('jumlah')
+
+            let namaFilled = false
+            let jumlahBarang = false
+            inputNamaBarang.addEventListener('input', (e) => {
+                maxInput = ''
+                maxInput = dataBarang.findIndex(e => e.idBarang == inputNamaBarang.value)
+                console.log(dataBarang[maxInput].stock)
+                inputJumlahBarang.placeholder = `max ${dataBarang[maxInput].stock}`
+
+                if (e.target.value != '' && jumlahBarang == true) {
+                    nextButton.disabled = false
+                    console.log('tes')
+                } else if (e.target.value != '') {
+                    namaFilled = true
+                }
+
+            })
+
+            if (dataInput.length >= pageForm) {
+                nextButton.disabled = false
+            } else {
+                nextButton.disabled = true
+                inputJumlahBarang.addEventListener('input', (e) => {
+                    if (e.target.value != 0 && namaFilled == true && e.target.value != '') {
+                        nextButton.disabled = false
+                    } else if (e.target.value != '' && e.target.value != 0) {
+                        jumlahBarang = true
+                    } else {
+                        jumlahBarang = false
+                        nextButton.disabled = true
+                    }
+                })
+            }
+            console.log(dataInput)
+
+        }
+
+        function getNextForm() {
+            let inputNamaBarang = document.getElementById('idBarang')
+            let inputJumlahBarang = document.getElementById('jumlah')
+            let prevButton = document.getElementById('form-prev-button')
+            let nextButton = document.getElementById('form-next-button')
+
+
+            dataInput[pageForm - 1] = {
+                'idBarang': inputNamaBarang.value,
+                'jumlah': Number(inputJumlahBarang.value)
+            }
+            pageForm += 1
+
+            if (pageForm > 1) {
+                prevButton.disabled = false
+            }
+
+            let dataBarangHTML = ''
+            let totalBarang
+            if (dataInput[pageForm - 1] != undefined) {
+                dataBarang.forEach((data) => {
+                    if (dataInput[pageForm - 1].idBarang == data.idBarang) {
+                        dataBarangHTML += `<option value="${data.idBarang}" selected>${data.nama}</option> `
+                        totalBarang = Number(dataInput[pageForm - 1].jumlah)
+                    } else {
+                        dataBarangHTML += `<option value="${data.idBarang}">${data.nama}</option> `
+                    }
+                })
+
+                divInput.innerHTML = `
+                <div class="group-edit-data">
+                    <h2 class="data-title">Nama Barang <span class="separator">:</span></h2>
+                    <select name="idBarang" id="idBarang" class="input-form input-nama-barang input-page${pageForm}" required>
+                        ${dataBarangHTML}
+                        </select>
+                                        </div>
+                                        <div class="group-edit-data">
+                                            <h2 class="data-title">Jumlah<span class="separator">:</span></h2>
+                                            <input type="number" class="input-form input-page${pageForm}" id="jumlah" name="jumlah"
+                                            value="${totalBarang}" required min='0'>
+                                            </div>
+                                            `
+            } else {
+                dataBarang.forEach((data) => {
+                    dataBarangHTML += `<option value="${data.idBarang}">${data.nama}</option> `
+                })
+
+                divInput.innerHTML = `
+                <div class="group-edit-data">
+                <h2 class="data-title">Nama Barang <span class="separator">:</span></h2>
+                <select name="idBarang" id="idBarang" class="input-form input-nama-barang input-page${pageForm}" required>
+                    <option value="" class="input-default-value" disabled selected hidden>select</option>
+                    ${dataBarangHTML}
+                    </select>
+                    </div>
+                    <div class="group-edit-data">
+                        <h2 class="data-title">Jumlah<span class="separator">:</span></h2>
+                        <input type="number" class="input-form input-page${pageForm}" id="jumlah" name="jumlah"
+                        value="" required min='0'>
+                        </div>
+                        `
+            }
+            inputNamaBarang = document.getElementById('idBarang')
+            inputJumlahBarang = document.getElementById('jumlah')
+
+
+            let namaFilled = false
+            let jumlahBarang = false
+            inputNamaBarang.addEventListener('input', (e) => {
+                maxInput = ''
+                maxInput = dataBarang.findIndex(e => e.idBarang == inputNamaBarang.value)
+                console.log(dataBarang[maxInput].stock)
+                inputJumlahBarang.placeholder = `max ${dataBarang[maxInput].stock}`
+                if (e.target.value != '' && jumlahBarang == true) {
+                    nextButton.disabled = false
+                    console.log('tesin')
+                } else if (e.target.value != '') {
+                    namaFilled = true
+                }
+
+            })
+
+            if (dataInput.length >= pageForm) {
+                nextButton.disabled = false
+            } else {
+                nextButton.disabled = true
+                console.log('masuk')
+                inputJumlahBarang.addEventListener('input', (e) => {
+                    console.log(e.target.value)
+                    if (e.target.value != 0 && namaFilled == true && e.target.value != '') {
+                        nextButton.disabled = false
+                        console.log('1')
+                    } else if (e.target.value != '' && e.target.value != 0) {
+                        jumlahBarang = true
+                        console.log('2')
+                    } else {
+                        jumlahBarang = false
+                        nextButton.disabled = true
+                        console.log('3')
+                    }
+                })
+            }
+
+            console.log(dataInput)
         }
 
         function closeModal() {
             let bgModal = document.querySelector('.bg-modal')
             bgModal.style.display = 'none'
+        }
+
+        function prepareSubmit() {
+            let inputNamaBarang = document.getElementById('idBarang')
+            let inputJumlahBarang = document.getElementById('jumlah')
+            let dataArray = document.getElementById('dataArray')
+
+            if (inputJumlahBarang.value == 0) {
+                inputJumlahBarang.value = ''
+            }
+
+            dataInput[pageForm - 1] = {
+                'idBarang': inputNamaBarang.value,
+                'jumlah': Number(inputJumlahBarang.value)
+            }
+
+            dataArray.value = JSON.stringify(dataInput)
         }
     </script>
 </body>

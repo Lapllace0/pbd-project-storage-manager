@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    @vite(['resources/css/SAdmin.css'])
+    @vite(['resources/css/SAdmin.css', 'resources/js/app.js'])
 </head>
 
 <body>
@@ -49,41 +49,28 @@
                         <a href="{{ route('getKartuStok', ['all', 1]) }}" class="btn">Kartu Stok</a>
                     </li>
                     <li>
-                        <a href="{{ route('getMargin', 1) }}" class="btn">Margin</a>
+                        <a href="{{ route('getMarginPenjualan', ['all', 1]) }}" class="btn">Margin</a>
                     </li>
                     <li>
-                        <a href="{{ route('getSatuan', 1) }}" class="btn">Satuan</a>
+                        <a href="{{ route('getSatuan', ['all', 1]) }}" class="btn">Satuan</a>
                     </li>
                     <li>
-                        <a href="{{ route('getPenerimaan', ['all',1]) }}" class="btn btn-active">Penerimaan</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('getDetailPenerimaan', ['all',1]) }}" class="btn">Detail Penerimaan</a>
+                        <a href="{{ route('getPenerimaan', ['all', 1]) }}" class="btn btn-active">Penerimaan</a>
                     </li>
                     <li>
                         <a href="{{ route('getPengadaan', ['all', 1]) }}" class="btn">Pengadaan</a>
                     </li>
                     <li>
-                        <a href="{{ route('getDetailPengadaan', ['all', 1]) }}" class="btn">Detail Pengadaan</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('getPenjualan', ['all', 1]) }}" class="btn">Penjualan</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('getDetailPenjualan', ['all', 1]) }}" class="btn">Detail Penjualan</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('getRetur', 1) }}" class="btn">Retur</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('getDetailRetur', 1) }}" class="btn">Detail Retur</a>
+                        <a href="{{ route('getPenjualan', 1) }}" class="btn">Penjualan</a>
                     </li>
                 </ul>
             </div>
         </aside>
 
         <main class="main-content">
+
             <div class="position">
+
 
                 <div class="navPanel">
                     <a href="{{ route('getPenerimaan', [$nextFilter, 1]) }}"
@@ -102,7 +89,7 @@
                         @endif
                     </div>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="add-button"
-                        onclick="showModalAdd()">
+                        onclick="showModalIdPengadaan()">
                         <path
                             d="M11,17h2V13h4V11H13V7H11v4H7v2h4v4ZM5,21q-0.83,0-1.41-0.59T3,19V5Q3,4.17 3.59,3.59T5,3H19q0.83,0 1.41,0.59T21,5V19q0,0.82-0.59,1.41T19,21H5Zm0-2H19V5H5V19ZM5,5V19V5Z" />
                     </svg>
@@ -112,11 +99,11 @@
                     <thead class="thead">
                         <tr>
                             <th>Id Penerimaan</th>
-                            <th>Created_at</th>
+                            <th>Kapan Dibuat</th>
                             <th>Status</th>
-                            <th>Id Pengadaan</th>
                             <th>Id User</th>
-                            <th class="editData">edit</th>
+                            <th>Id Pengadaan</th>
+                            <th class="editData">Detail</th>
                         </tr>
                     </thead>
                     <tbody class="tbody">
@@ -127,30 +114,20 @@
                                         <td>{{ $d->idPenerimaan }}</td>
                                         <td>{{ $d->created_at }}</td>
                                         <td>{{ $d->det_status }}</td>
-                                        <td>{{ $d->idPengadaan }}</td>
                                         <td>{{ $d->idUser }}</td>
-                                        <td><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="24px"
-                                                width="24px" class="svgEdit"
-                                                onclick="showModal(@js($d->idPenerimaan),@js($d->created_at),@js($d->det_status),@js($d->idPengadaan),@js($d->idUser),@js($d->status_code))">
-                                                <path
-                                                    d="M5,21q-0.83,0-1.41-0.59T3,19V5Q3,4.17 3.59,3.59T5,3h8.93l-2,2H5V19H19V12.05l2-2V19q0,0.82-0.59,1.41T19,21H5Zm7-9ZM9,15V10.75l9.18-9.18q0.3-0.3 0.68-0.45q0.38-0.15 0.75-0.15q0.4,0 0.76,0.15q0.36,0.15 0.66,0.45L22.43,3q0.28,0.3 0.43,0.66T23,4.4T22.86,5.14T22.43,5.8L13.25,15H9ZM21.03,4.4L19.63,3l1.4,1.4ZM11,13h1.4l5.8-5.8L17.5,6.5L16.78,5.8L11,11.58V13Zm6.5-6.5L16.78,5.8L17.5,6.5l0.7,0.7L17.5,6.5Z" />
-                                            </svg>
-                                        </td>
+                                        <td>{{ $d->idPengadaan }}</td>
+                                        <td> <a href="{{ route('getDetailPenerimaan', [$d->idPenerimaan, 1]) }}"
+                                                class="detail-transaksi">Detail</a></td>
                                     </tr>
                                 @else
                                     <tr class="trEven datarow" id="{{ $d->idPenerimaan }}">
                                         <td>{{ $d->idPenerimaan }}</td>
                                         <td>{{ $d->created_at }}</td>
                                         <td>{{ $d->det_status }}</td>
-                                        <td>{{ $d->idPengadaan }}</td>
                                         <td>{{ $d->idUser }}</td>
-                                        <td><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="24px"
-                                                width="24px" class="svgEdit"
-                                                onclick="showModal(@js($d->idPenerimaan),@js($d->created_at),@js($d->det_status),@js($d->idPengadaan),@js($d->idUser),@js($d->status_code))">
-                                                <path
-                                                    d="M5,21q-0.83,0-1.41-0.59T3,19V5Q3,4.17 3.59,3.59T5,3h8.93l-2,2H5V19H19V12.05l2-2V19q0,0.82-0.59,1.41T19,21H5Zm7-9ZM9,15V10.75l9.18-9.18q0.3-0.3 0.68-0.45q0.38-0.15 0.75-0.15q0.4,0 0.76,0.15q0.36,0.15 0.66,0.45L22.43,3q0.28,0.3 0.43,0.66T23,4.4T22.86,5.14T22.43,5.8L13.25,15H9ZM21.03,4.4L19.63,3l1.4,1.4ZM11,13h1.4l5.8-5.8L17.5,6.5L16.78,5.8L11,11.58V13Zm6.5-6.5L16.78,5.8L17.5,6.5l0.7,0.7L17.5,6.5Z" />
-                                            </svg>
-                                        </td>
+                                        <td>{{ $d->idPengadaan }}</td>
+                                        <td> <a href="{{ route('getDetailPenerimaan', [$d->idPenerimaan, 1]) }}"
+                                                class="detail-transaksi">Detail</a></td>
                                     </tr>
                                 @endif
                             @endforeach
@@ -167,58 +144,26 @@
                         <form action="/penerimaan/action" method="POST" class="edit-data">
                             @csrf
                             <input type="hidden" value="{{ $filter }}" name="filter">
-                            <input type="hidden" value="" id="idPenerimaan" name="id">
+                            <input type="hidden" value="" id="dataArray" name="dataArray">
+                            <h2 class="data-title" id="pilihIdPengadaan">Pilih Id Pengadaan</span></h2>
+                            <select name="idPengadaan" id="idPengadaan" class="select-id_pengadaan-size" required>
+                                @foreach ($pengadaan as $d)
+                                    <option value="{{ $d->idPengadaan }}">{{ $d->idPengadaan }}</option>
+                                @endforeach
+                            </select>
 
-                            <div class="group-edit-data">
-                                <div class="data-title">
-                                    <h2>Status</h2>
-                                    <h2>:</h2>
-                                </div>
-                                <select name="status" id="statusPenerimaan" class="input-form" required>
-                                    <option value="" class="input-default-value" disabled hidden selected>select
-                                    </option>
-                                    <option value="1">sudah semua</option>
-                                    <option value="0">masih sebagian</option>
-                                </select>
+                            <div class="input-form-add">
+
                             </div>
 
-                            <div class="group-edit-data"">
-                                <div class="data-title">
-                                    <h2>Id Pengadaan</h2>
-                                    <h2>:</h2>
-                                </div>
-                                <select name="idPengadaan" id="idPengadaan" class="input-form" required>
-                                    <option value="" class="input-default-value" disabled hidden selected>select
-                                    </option>
-                                    @foreach ($dataPengadaan as $d)
-                                        <option value="{{ $d->idPengadaan }}">{{ $d->timestamp }}</option>
-                                    @endforeach
-                                </select>
+                            <div class="button-form-choose_idPengadaan">
+                                <button type="button" onclick="showModalAdd()">Next Section</button>
                             </div>
-
-                            <div class="group-edit-data"">
-                                <div class="data-title">
-                                    <h2>Id User</h2>
-                                    <h2>:</h2>
-                                </div>
-                                <select name="idUser" id="idUser" class="input-form" required>
-                                    <option value="" class="input-default-value" disabled hidden selected>select
-                                    </option>
-                                    @foreach ($dataUser as $d)
-                                        <option value="{{ $d->idUser }}">{{ $d->username }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="button-form-edit">
-                                <button type="submit" name="action" value="delete"
-                                    class="delete-data">Delete</button>
-                                <button type="submit" name="action" value="update"
-                                    class="update-data">Update</button>
-                            </div>
+                            <h3 id="muatData"></h3>
                             <div class="button-form-add">
-                                <button type="submit" name="action" value="add" class="add-data">Add
-                                    Data</button>
+                                <button type="submit" name="action" value="add" class="add-data"
+                                onclick="prepareSubmit()" id="simpanPenerimaan" disabled>Simpan
+                                Penerimaan</button>
                             </div>
                         </form>
                     </div>
@@ -230,6 +175,7 @@
     <script>
         let data = document.getElementById('svg-a')
         let sidebar = document.getElementById('sidebar')
+        let inputForm = document.querySelector('.input-form-add')
 
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -245,7 +191,7 @@
             if (flashFailed) {
                 flashFailed.classList.add('flash-remove')
                 flashFailed.addEventListener('transitioned', () => {
-                    flashSuccess.remove()
+                    flashFailed.remove()
                 })
             }
 
@@ -261,59 +207,152 @@
 
         })
 
+        let dataInput = []
+        let iterasi = 0
 
-        function showModal(p_id, p_created_at, p_det_status, p_idPengadaan, p_idUser, p_status_code) {
+
+        function showModalIdPengadaan() {
             let bgModal = document.querySelector('.bg-modal')
             let buttonAdd = document.querySelector('.button-form-add')
-            let buttonEdit = document.querySelector('.button-form-edit')
+
+            let idPengadaan = document.getElementById('idPengadaan')
+            let buttonPengadaan = document.querySelector('.button-form-choose_idPengadaan')
+            let pilihIdPengadaan = document.getElementById('pilihIdPengadaan')
 
             bgModal.style.display = 'flex'
             buttonAdd.style.display = 'none'
-            buttonEdit.style.display = 'flex'
+            idPengadaan.style.display = 'flex'
+            buttonPengadaan.style.display = 'flex'
+            pilihIdPengadaan.style.display = 'block'
+            inputForm.style.display = 'none'
 
-            let id = document.getElementById('idPenerimaan')
-            let statusPenerimaan = document.getElementById('statusPenerimaan')
-            let idPengadaan = document.getElementById('idPengadaan')
-            let idUser = document.getElementById('idUser')
-
-            id.value = p_id
+            inputForm.innerHTML = ''
 
 
-            let opsiStatus = Array.from(statusPenerimaan.options).find(opsi => opsi.value == p_status_code)
-            console.log(opsiStatus)
-            statusPenerimaan.value = opsiStatus.value
-
-            let opsiPengadaan = Array.from(idPengadaan.options).find(opsi => opsi.value == p_idPengadaan)
-            idPengadaan.value = opsiPengadaan.value
-
-            let opsiUser = Array.from(idUser.options).find(opsi => opsi.value == p_idUser)
-            idUser.value = opsiUser.value
-
-            console.log(opsiStatus.value, opsiPengadaan.value, opsiUser.value)
         }
 
-        function showModalAdd() {
-            let bgModal = document.querySelector('.bg-modal')
-            let buttonEdit = document.querySelector('.button-form-edit')
-            let inputForm = document.querySelectorAll('.input-form')
+
+        async function showModalAdd() {
+            let muatData = document.getElementById('muatData')
+            let idPengadaan = document.getElementById('idPengadaan')
+
+
+            muatData.textContent = 'Memuat data...'
+            let barang = await fetch(`/penerimaan/getBarang/${idPengadaan.value}`)
+            let data = await barang.json()
+
+            if (data[0] == 0) {
+                muatData.textContent = 'Gagal Memuat Data'
+                return
+            }
+            muatData.style.display = 'none'
+            console.log('berhasil')
+            console.log(data)
+
             let buttonAdd = document.querySelector('.button-form-add')
+            let buttonPengadaan = document.querySelector('.button-form-choose_idPengadaan')
+            let pilihIdPengadaan = document.getElementById('pilihIdPengadaan')
 
-            bgModal.style.display = 'flex'
-            buttonEdit.style.display = 'none'
             buttonAdd.style.display = 'flex'
+            idPengadaan.style.display = 'none'
+            buttonPengadaan.style.display = 'none'
+            pilihIdPengadaan.style.display = 'none'
+            inputForm.style.display = 'flex'
 
-
-            inputForm.forEach(element => {
-                element.value = ''
+            inputForm.innerHTML = ''
+            dataInput = []
+            data.forEach(data => {
+                inputForm.innerHTML += `
+                <div class='container-input-penerimaan'>
+                                <h4 class="label-data-input-penerimaan">${data.namaBarang}</h4>
+                                <input type="hidden" value ='${data.idBarang}' class='idBarang'>
+                                <input type="number" placeholder="harga satuan"
+                                class="input-harga-satuan-penerimaan" id='harga${iterasi}' disabled required>
+                                <input type="number" placeholder="jumlah|max:${data.kurang}" min="0" max='${data.kurang}'
+                                class="input-jumlah-penerimaan" id='jumlah${iterasi}'>
+                </div>`
+                iterasi++
             })
 
+            let simpanPenerimaan = document.getElementById('simpanPenerimaan')
+            inputForm.addEventListener('input', (e) => {
+                let parent = e.target.closest('.container-input-penerimaan')
+                let harga = parent.querySelector('.input-harga-satuan-penerimaan')
+                let jumlah = parent.querySelector('.input-jumlah-penerimaan')
+                let idBarang = parent.querySelector('.idBarang')
 
+                if (Number(jumlah.value) > Number(jumlah.max)) {
+                    jumlah.value = Number(jumlah.max)
+                }
+                if (Number(harga.value) < 0 || typeof Number(harga.value) == NaN) {
+                    harga.value = ''
+                }
+                harga.value = Number(harga.value)
 
+                console.log(harga.value)
+                // console.log(jumlah)
+
+                if (jumlah.value != 0 && jumlah.value != '') {
+                    harga.disabled = false
+                    if (harga.value != 0 && harga.value != '') {
+
+                        if (!(dataInput.some((e) => e.id == harga.id))) {
+                            dataInput.push({
+                                id: harga.id,
+                                idBarang: idBarang.value,
+                                harga: harga.value,
+                                jumlah: jumlah.value
+                            })
+                            simpanPenerimaan.disabled = false
+                        } else {
+                            dataInput[dataInput.findIndex(item => item.id == harga.id)] = {
+                                id: harga.id,
+                                idBarang: idBarang.value,
+                                harga: harga.value,
+                                jumlah: jumlah.value
+                            }
+                        }
+                    } else {
+                        if (dataInput.findIndex(item => item.id == harga.id) != -1) {
+                            dataInput.splice(dataInput.findIndex(item => item.id == harga.id), 1)
+                        }
+                        if (dataInput.length != 0) {
+                            simpanPenerimaan.disabled = false
+                        } else {
+                            simpanPenerimaan.disabled = true
+                        }
+                    }
+                    console.log('a')
+                } else {
+                    if ((dataInput.some((e) => e.id == harga.id))) {
+                        dataInput.splice(dataInput.findIndex(item => item.id == harga.id), 1)
+                    }
+                    harga.disabled = true
+                    if (dataInput.length != 0) {
+                        simpanPenerimaan.disabled = false
+                    } else {
+                        simpanPenerimaan.disabled = true
+                    }
+
+                    console.log('b')
+                }
+                // console.log(jumlah.value)
+                console.log(dataInput)
+            })
         }
+
 
         function closeModal() {
             let bgModal = document.querySelector('.bg-modal')
             bgModal.style.display = 'none'
+        }
+
+        function prepareSubmit() {
+            let dataArray = document.getElementById('dataArray')
+
+
+            dataArray.value = JSON.stringify(dataInput)
+            inputForm.innerHTML = ''
         }
     </script>
 </body>

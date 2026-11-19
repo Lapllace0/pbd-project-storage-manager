@@ -21,6 +21,10 @@ class barang extends Model
         );
     }
 
+    public static function getStatus() {
+        return DB::select('select idSatuan, nama_satuan from satuan where status = 1');
+    }
+
     public static function getDataActive(int $offset)
     {
         return DB::select('select * from lihat_barang where status = 1 limit 5 offset ?', [$offset]);

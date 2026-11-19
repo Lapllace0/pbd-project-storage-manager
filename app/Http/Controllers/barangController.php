@@ -30,7 +30,9 @@ class barangController extends Controller
             $nextFilter = 'all';
         }
 
-        return view('superAdmin.barang', compact('data', 'nextData', 'page', 'filter', 'nextFilter'));
+        $status = barang::getStatus();
+
+        return view('superAdmin.barang', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'status'));
     }
 
     public function actionBarang(Request $request)

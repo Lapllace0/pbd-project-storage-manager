@@ -3,63 +3,76 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 
 class penerimaan extends Model
 {
-        public static function getDataAll(int $offset)
+    public static function getDataAll(int $offset)
     {
-        return DB::select('select * from lihat_penerimaan limit 5 offset ?', [$offset]);
+        return DB::select('select * from lihat_penerimaan order by created_at desc limit 5 offset ?', [$offset]);
     }
 
     public static function getNextDataAll(int $offset)
     {
         return DB::select(
             'with dataA as (
-            select * from lihat_penerimaan limit 5 offset ?)
+            select * from lihat_penerimaan order by created_at desc limit 5 offset ?)
             select count(*) as total from dataA',
             [$offset + 5],
         );
     }
 
-    public static function getPengadaan()
+    public static function getDataActive($offset)
     {
-        return DB::select('select idPengadaan, timestamp from pengadaan where status = 0 order by timestamp desc');
+        return DB::select('select * from getPenerimaanAktif order by created_at desc limit 5 offset ?', [$offset]);
     }
 
-    public static function getUser()
-    {
-        return DB::select('select idUser, username from user');
-    }
 
-    public static function getDataActive(int $offset)
-    {
-        return DB::select('select * from lihat_penerimaan where status = 0 limit 5 offset ?', [$offset]);
-    }
-
-    public static function getNextDatActive(int $offset)
+    public static function getNextDataActive($offset)
     {
         return DB::select(
             'with dataA as (
-            select * from lihat_penerimaan where status = 0 limit 5 offset ?)
+            select * from getPenerimaanAktif order by created_at desc limit 5 offset ?)
             select count(*) as total from dataA',
             [$offset + 5],
         );
     }
 
-    public static function updatePenerimaan($idPenerimaan,$status, $idPengadaan, int $idUser)
+    public static function getDataDone(int $offset)
     {
-        return DB::update('update penerimaan set status = ?, idPengadaan = ?, idUser = ? where idPenerimaan = ?', [$status, $idPengadaan, $idUser, $idPenerimaan]);
+        return DB::select('select * from getPenerimaanSelesai order by created_at desc limit 5 offset ?', [$offset]);
     }
 
-    public static function deletePenerimaan($id)
+    public static function getNextDataDone(int $offset)
     {
-        return DB::delete('delete from penerimaan where idPenerimaan = ?', [$id]);
+        return DB::select(
+            'with dataA as (
+            select * from getPenerimaanSelesai order by created_at desc limit 5 offset ?)
+            select count(*) as total from dataA',
+            [$offset + 5],
+        );
     }
 
-    public static function addPenerimaan($status, $idPengadaan, int $idUser)
+    public static function getPengadaanActive()
     {
-        return DB::insert('insert into penerimaan (created_at, status, idPengadaan, idUser) values (now(),?,?,?)', [$status, $idPengadaan, $idUser]);
+        return DB::select('select * from pengadaan where status = 0');
     }
 
+
+    public static function insertData($dataArray, $idUser, $idPengadaan)
+    {
+        DB::beginTransaction();
+        try {
+            $idPenerimaan = DB::select('select insertReturnPenId(?, ?) as idPenerimaan', [$idPengadaan, $idUser]);
+
+            foreach ($dataArray as $d) {
+                DB::select('CALL insertDetailPenerimaan(?,?,?,?)', [$idPenerimaan[0]->idPenerimaan, $d->idBarang, $d->jumlah, $d->harga]);
+            }
+            DB::commit();
+        } catch (QueryException $message) {
+            DB::rollBack();
+            throw $message;
+        }
+    }
 }
