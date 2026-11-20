@@ -30,9 +30,16 @@
             id="svg-a">
             <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
         </svg>
+        <h1 class="username-role">{{ session('username') }} ({{ session('namaRole') }})</h1>
+        <form action="/logout" method="POST">
+            <button id="btn-logout" type="submit">Log out</button>
+        </form>
         <aside class="sidebar" id="sidebar">
             <div>
                 <ul>
+                    <li>
+                        <a href="{{ route('dashboard') }}" class="btn">Dashboard</a>
+                    </li>
                     <li>
                         <a href="{{ route('getBarang', ['all', 1]) }}" class="btn">Barang</a>
                     </li>
@@ -40,7 +47,7 @@
                         <a href="{{ route('getUser', 1) }}" class="btn">Users</a>
                     </li>
                     <li>
-                        <a href="{{ route('getVendor', ['all',1]) }}" class="btn">Vendor</a>
+                        <a href="{{ route('getVendor', ['all', 1]) }}" class="btn">Vendor</a>
                     </li>
                     <li>
                         <a href="{{ route('getRole', 1) }}" class="btn">Role</a>
@@ -55,10 +62,10 @@
                         <a href="{{ route('getSatuan', ['all', 1]) }}" class="btn">Satuan</a>
                     </li>
                     <li>
-                        <a href="{{ route('getPenerimaan', ['all',1]) }}" class="btn">Penerimaan</a>
+                        <a href="{{ route('getPenerimaan', ['all', 1]) }}" class="btn">Penerimaan</a>
                     </li>
                     <li>
-                        <a href="{{ route('getPengadaan', ['all',1]) }}" class="btn">Pengadaan</a>
+                        <a href="{{ route('getPengadaan', ['all', 1]) }}" class="btn">Pengadaan</a>
                     </li>
                     <li>
                         <a href="{{ route('getPenjualan', 1) }}" class="btn">Penjualan</a>
@@ -156,8 +163,8 @@
                             </div>
                             <div class="group-edit-data">
                                 <h2 class="data-title">Masuk<span class="separator">:</span></h2>
-                                <input type="number" class="input-form" id="masuk" name="masuk"
-                                    value="0" required>
+                                <input type="number" class="input-form" id="masuk" name="masuk" value="0"
+                                    required>
                             </div>
                             <div class="group-edit-data">
                                 <h2 class="data-title">Keluar<span class="separator">:</span></h2>
@@ -170,7 +177,7 @@
                                     value="" required>
                             </div>
                             <div class="group-edit-data"">
-                                    <h2 class="data-title">Nama Barang <span class="separator">:</span></h2>
+                                <h2 class="data-title">Nama Barang <span class="separator">:</span></h2>
                                 <select name="idBarang" id="idBarang" class="input-form input-nama-barang" required>
                                     <option value="" class="input-default-value" disabled hidden>select</option>
                                     @foreach ($dataBarang as $d)
@@ -201,7 +208,6 @@
             }
 
         })
-
     </script>
 </body>
 

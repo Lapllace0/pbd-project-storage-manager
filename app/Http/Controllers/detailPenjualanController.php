@@ -20,8 +20,16 @@ class detailPenjualanController extends Controller
         $data = detailPenjualan::getDataAll($idPenjualan, $offset);
         $nextData = detailPenjualan::getNextDataAll($idPenjualan, $offset);
 
-
-        return view('superAdmin.detail_penjualan', compact('data', 'nextData', 'page', 'idPenjualan'));
+        if (session('role') == 1) {
+            return view('superAdmin.detail_penjualan', compact('data', 'nextData', 'page', 'idPenjualan'));
+        } elseif (session('role') == 2) {
+            return view('manager.detail_penjualan', compact('data', 'nextData', 'page', 'idPenjualan'));
+        } elseif (session('role') == 3) {
+            return view('admin.detail_penjualan', compact('data', 'nextData', 'page', 'idPenjualan'));
+        } elseif (session('role') == 4) {
+            return redirect('/dashboard');
+        } elseif (session('role') == 5) {
+            return redirect('/dashboard');
+        }
     }
-
 }

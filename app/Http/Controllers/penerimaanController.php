@@ -36,7 +36,17 @@ class penerimaanController extends Controller
             $nextFilter = 'all';
         }
 
-        return view('superAdmin.penerimaan', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'pengadaan'));
+        if (session('role') == 1) {
+            return view('superAdmin.penerimaan', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'pengadaan'));
+        } elseif (session('role') == 2) {
+            return view('manager.penerimaan', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'pengadaan'));
+        } elseif (session('role') == 3) {
+            return redirect('/dashboard');
+        } elseif (session('role') == 4) {
+            return view('sGudang.penerimaan', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'pengadaan'));
+        } elseif (session('role') == 5) {
+            return redirect('/dashboard');
+        }
     }
 
     public function actionPenerimaan(Request $request)

@@ -30,9 +30,16 @@
             id="svg-a">
             <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
         </svg>
+        <h1 class="username-role">{{ session('username') }} ({{ session('namaRole') }})</h1>
+        <form action="/logout" method="POST">
+            <button id="btn-logout" type="submit">Log out</button>
+        </form>
         <aside class="sidebar" id="sidebar">
             <div>
                 <ul>
+                    <li>
+                        <a href="{{ route('dashboard') }}" class="btn">Dashboard</a>
+                    </li>
                     <li>
                         <a href="{{ route('getBarang', ['all', 1]) }}" class="btn">Barang</a>
                     </li>
@@ -200,13 +207,13 @@
             if (flashSuccess) {
                 console.log('updet berhasil')
                 flashSuccess.classList.add('flash-remove')
-                flashSuccess.addEventListener('transitioned', () => {
+                flashSuccess.addEventListener('transitionend', () => {
                     flashSuccess.remove()
                 })
             }
             if (flashFailed) {
                 flashFailed.classList.add('flash-remove')
-                flashFailed.addEventListener('transitioned', () => {
+                flashFailed.addEventListener('transitionend', () => {
                     flashFailed.remove()
                 })
             }

@@ -19,7 +19,17 @@ class usersController extends Controller
         $nextData = users::getNextDataAll($offset);
         $role = users::getRole();
 
-        return view('superAdmin.users', compact('data', 'nextData', 'page', 'role'));
+        if (session('role') == 1) {
+            return view('superAdmin.users', compact('data', 'nextData', 'page', 'role'));
+        } elseif (session('role') == 2) {
+            return view('manager.users', compact('data', 'nextData', 'page', 'role'));
+        } elseif (session('role') == 3) {
+            return redirect('/dashboard');
+        } elseif (session('role') == 4) {
+            return redirect('/dashboard');
+        } elseif (session('role') == 5) {
+            return redirect('/dashboard');
+        }
     }
 
     public function actionUsers(Request $request)

@@ -13,13 +13,13 @@
     @if (session('success'))
         <div class="flash-container-berhasil">
             <h4 class="flash-message">
-                {{session('success')}}
+                {{ session('success') }}
             </h4>
         </div>
-        @elseif (session('failed'))
+    @elseif (session('failed'))
         <div class="flash-container-gagal">
             <h4 class="flash-message">
-                {{session('failed')}}
+                {{ session('failed') }}
             </h4>
         </div>
     @endif
@@ -30,23 +30,30 @@
             id="svg-a">
             <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
         </svg>
+        <h1 class="username-role">{{ session('username') }} ({{ session('namaRole') }})</h1>
+        <form action="/logout" method="POST">
+            <button id="btn-logout" type="submit">Log out</button>
+        </form>
         <aside class="sidebar" id="sidebar">
             <div>
                 <ul>
                     <li>
-                        <a href="{{ route('getBarang', ['all',1]) }}" class="btn btn-active">Barang</a>
+                        <a href="{{ route('dashboard') }}" class="btn">Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('getBarang', ['all', 1]) }}" class="btn btn-active">Barang</a>
                     </li>
                     <li>
                         <a href="{{ route('getUser', 1) }}" class="btn">Users</a>
                     </li>
                     <li>
-                        <a href="{{ route('getVendor', ['all',1]) }}" class="btn">Vendor</a>
+                        <a href="{{ route('getVendor', ['all', 1]) }}" class="btn">Vendor</a>
                     </li>
                     <li>
                         <a href="{{ route('getRole', 1) }}" class="btn">Role</a>
                     </li>
                     <li>
-                        <a href="{{ route('getKartuStok', ['all',1]) }}" class="btn">Kartu Stok</a>
+                        <a href="{{ route('getKartuStok', ['all', 1]) }}" class="btn">Kartu Stok</a>
                     </li>
                     <li>
                         <a href="{{ route('getMarginPenjualan', ['all', 1]) }}" class="btn">Margin</a>
@@ -55,10 +62,10 @@
                         <a href="{{ route('getSatuan', ['all', 1]) }}" class="btn">Satuan</a>
                     </li>
                     <li>
-                        <a href="{{ route('getPenerimaan', ['all',1]) }}" class="btn">Penerimaan</a>
+                        <a href="{{ route('getPenerimaan', ['all', 1]) }}" class="btn">Penerimaan</a>
                     </li>
                     <li>
-                        <a href="{{ route('getPengadaan', ['all',1]) }}" class="btn">Pengadaan</a>
+                        <a href="{{ route('getPengadaan', ['all', 1]) }}" class="btn">Pengadaan</a>
                     </li>
                     <li>
                         <a href="{{ route('getPenjualan', 1) }}" class="btn">Penjualan</a>
@@ -71,25 +78,29 @@
             <div class="position">
 
                 <div class="navPanel">
-                    <a href="{{route('getBarang', [$nextFilter, 1])}}" class="button-filter">{{$filter}}</a>
+                    <a href="{{ route('getBarang', [$nextFilter, 1]) }}" class="button-filter">{{ $filter }}</a>
                     <div class="navPage">
                         <h5 class="page">PAGE: {{ $page }}</h5>
                         @if ($page == 1)
-                        <a class="disabled-button">Prev</a>
-                        {{-- <button wire:click="getPrev" disabled class="prevPage">prev</button> --}}
+                            <a class="disabled-button">Prev</a>
+                            {{-- <button wire:click="getPrev" disabled class="prevPage">prev</button> --}}
                         @else
-                        <a href="{{ route('getBarang', [$filter,$page - 1]) }}" class="prevPage">Prev</a>
-                        {{-- <button wire:click="getPrev" class="prevPage">prev</button> --}}
+                            <a href="{{ route('getBarang', [$filter, $page - 1]) }}" class="prevPage">Prev</a>
+                            {{-- <button wire:click="getPrev" class="prevPage">prev</button> --}}
                         @endif
                         @if ($nextData[0]->total < 1)
-                        <a class="disabled-button">Next</a>
-                        {{-- <button wire:click="getNext" disabled class="nextPage">next</button> --}}
+                            <a class="disabled-button">Next</a>
+                            {{-- <button wire:click="getNext" disabled class="nextPage">next</button> --}}
                         @else
-                        <a href="{{ route('getBarang', [$filter,$page + 1]) }}" class="nextPage">Next</a>
-                        {{-- <button wire:click="getNext" class="nextPage">next</button> --}}
+                            <a href="{{ route('getBarang', [$filter, $page + 1]) }}" class="nextPage">Next</a>
+                            {{-- <button wire:click="getNext" class="nextPage">next</button> --}}
                         @endif
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="add-button" onclick="showModalAdd()"><path d="M11,17h2V13h4V11H13V7H11v4H7v2h4v4ZM5,21q-0.83,0-1.41-0.59T3,19V5Q3,4.17 3.59,3.59T5,3H19q0.83,0 1.41,0.59T21,5V19q0,0.82-0.59,1.41T19,21H5Zm0-2H19V5H5V19ZM5,5V19V5Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="add-button"
+                        onclick="showModalAdd()">
+                        <path
+                            d="M11,17h2V13h4V11H13V7H11v4H7v2h4v4ZM5,21q-0.83,0-1.41-0.59T3,19V5Q3,4.17 3.59,3.59T5,3H19q0.83,0 1.41,0.59T21,5V19q0,0.82-0.59,1.41T19,21H5Zm0-2H19V5H5V19ZM5,5V19V5Z" />
+                    </svg>
                 </div>
 
                 <table class="table">
@@ -115,7 +126,7 @@
                                                 width="24px" class="svgEdit"
                                                 onclick="showModal(@js($d->idBarang),@js($d->jenis),@js($d->Nama),@js($d->Satuan),@js($d->Harga),@js($d->status))">
                                                 <path
-                                                    d="M5,21q-0.83,0-1.41-0.59T3,19V5Q3,4.17 3.59,3.59T5,3h8.93l-2,2H5V19H19V12.05l2-2V19q0,0.82-0.59,1.41T19,21H5Zm7-9ZM9,15V10.75l9.18-9.18q0.3-0.3 0.68-0.45q0.38-0.15 0.75-0.15q0.4,0 0.76,0.15q0.36,0.15 0.66,0.45L22.43,3q0.28,0.3 0.43,0.66T23,4.4T22.86,5.14T22.43,5.8L13.25,15H9ZM21.03,4.4L19.63,3l1.4,1.4ZM11,13h1.4l5.8-5.8L17.5,6.5L16.78,5.8L11,11.58V13Zm6.5-6.5L16.78,5.8L17.5,6.5l0.7,0.7L17.5,6.5Z"/>
+                                                    d="M5,21q-0.83,0-1.41-0.59T3,19V5Q3,4.17 3.59,3.59T5,3h8.93l-2,2H5V19H19V12.05l2-2V19q0,0.82-0.59,1.41T19,21H5Zm7-9ZM9,15V10.75l9.18-9.18q0.3-0.3 0.68-0.45q0.38-0.15 0.75-0.15q0.4,0 0.76,0.15q0.36,0.15 0.66,0.45L22.43,3q0.28,0.3 0.43,0.66T23,4.4T22.86,5.14T22.43,5.8L13.25,15H9ZM21.03,4.4L19.63,3l1.4,1.4ZM11,13h1.4l5.8-5.8L17.5,6.5L16.78,5.8L11,11.58V13Zm6.5-6.5L16.78,5.8L17.5,6.5l0.7,0.7L17.5,6.5Z" />
                                             </svg>
                                         </td>
                                     </tr>
@@ -147,7 +158,7 @@
                         </svg>
                         <form action="/barang/action" method="POST" class="edit-data">
                             @csrf
-                            <input type="hidden" value="{{$filter}}" name="filter">
+                            <input type="hidden" value="{{ $filter }}" name="filter">
                             <input type="hidden" value="" id="idBarang" name="id">
                             <div class="group-edit-data"">
                                 <div class="data-title">
@@ -166,7 +177,8 @@
                             </div>
                             <div class="group-edit-data">
                                 <h2 class="data-title">Nama <span class="separator">:</span></h2>
-                                <input type="text" class="text-edit input-form" id="namaBarang" name="nama" required>
+                                <input type="text" class="text-edit input-form" id="namaBarang" name="nama"
+                                    required>
                             </div>
                             <div class="group-edit-data"">
                                 <div class="data-title">
@@ -176,13 +188,14 @@
                                 <select name="satuan" id="satuanBarang" class="input-form" required>
                                     <option value="" class="input-default-value" disabled hidden>select</option>
                                     @foreach ($status as $s)
-                                    <option value="{{$s->idSatuan}}">{{$s->nama_satuan}}</option>
+                                        <option value="{{ $s->idSatuan }}">{{ $s->nama_satuan }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="group-edit-data">
                                 <h2 class="data-title">Harga <span class="separator">:</span></h2>
-                                <input name="harga" type="number" class="text-edit input-form" id="hargaBarang" required>
+                                <input name="harga" type="number" class="text-edit input-form" id="hargaBarang"
+                                    required>
                             </div>
                             <div class="group-edit-data"">
                                 <div class="data-title">
@@ -200,7 +213,8 @@
                                     class="update-data">Update</button>
                             </div>
                             <div class="button-form-add">
-                                <button type="submit" name="action" value="add" class="add-data">Add Data</button>
+                                <button type="submit" name="action" value="add" class="add-data">Add
+                                    Data</button>
                             </div>
                         </form>
                     </div>
@@ -220,14 +234,14 @@
             if (flashSuccess) {
                 console.log('updet berhasil')
                 flashSuccess.classList.add('flash-remove')
-                flashSuccess.addEventListener('transitioned', () => {
+                flashSuccess.addEventListener('transitionend', () => {
                     flashSuccess.remove()
                 })
             }
             if (flashFailed) {
                 flashFailed.classList.add('flash-remove')
-                flashFailed.addEventListener('transitioned', () => {
-                    flashSuccess.remove()
+                flashFailed.addEventListener('transitionend', () => {
+                    flashFailed.remove()
                 })
             }
 
@@ -297,8 +311,7 @@
             let bgModal = document.querySelector('.bg-modal')
             bgModal.style.display = 'none'
         }
-
-        </script>
+    </script>
 </body>
 
 </html>

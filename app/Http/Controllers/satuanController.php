@@ -30,7 +30,17 @@ class satuanController extends Controller
             $nextFilter = 'all';
         }
 
-        return view('superAdmin.satuan', compact('data', 'nextData', 'page', 'filter', 'nextFilter'));
+        if (session('role') == 1) {
+            return view('superAdmin.satuan', compact('data', 'nextData', 'page', 'filter', 'nextFilter'));
+        } elseif (session('role') == 2) {
+            return view('manager.satuan', compact('data', 'nextData', 'page', 'filter', 'nextFilter'));
+            } elseif (session('role') == 3) {
+            return view('admin.satuan', compact('data', 'nextData', 'page', 'filter', 'nextFilter'));
+            } elseif (session('role') == 4) {
+            return view('sGudang.satuan', compact('data', 'nextData', 'page', 'filter', 'nextFilter'));
+            } elseif (session('role') == 5) {
+            return view('sPengadaan.satuan', compact('data', 'nextData', 'page', 'filter', 'nextFilter'));
+        }
     }
 
     public function actionSatuan(Request $request)

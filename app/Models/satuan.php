@@ -9,7 +9,7 @@ class satuan extends Model
 {
     public static function getDataAll($offset)
     {
-        return DB::select('select * from satuan order by idSatuan limit 5 offset ?', [$offset]);
+        return DB::select('select * from lihat_satuan order by idSatuan limit 5 offset ?', [$offset]);
     }
 
     public static function getNextDataAll($offset)
@@ -24,7 +24,7 @@ class satuan extends Model
 
     public static function getDataActive($offset)
     {
-        return DB::select('select * from satuan where status = 1 order by idSatuan limit 5 offset ?', [$offset]);
+        return DB::select('select * from lihat_satuan where status = 1 order by idSatuan limit 5 offset ?', [$offset]);
     }
 
     public static function getNextDataActive($offset)

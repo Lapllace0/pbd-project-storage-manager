@@ -28,7 +28,17 @@ class vendorController extends Controller
             $nextFilter = 'all';
         }
 
-        return view('superAdmin.vendor', compact('data', 'nextData', 'page', 'filter', 'nextFilter'));
+        if (session('role') == 1) {
+            return view('superAdmin.vendor', compact('data', 'nextData', 'page', 'filter', 'nextFilter'));
+        } elseif (session('role') == 2) {
+            return view('manager.vendor', compact('data', 'nextData', 'page', 'filter', 'nextFilter'));
+        } elseif (session('role') == 3) {
+            return redirect('/dashboard');
+        } elseif (session('role') == 4) {
+            return redirect('/dashboard');
+        } elseif (session('role') == 5) {
+            return view('sPengadaan.vendor', compact('data', 'nextData', 'page', 'filter', 'nextFilter'));
+        }
     }
 
     public function actionVendor(Request $request)

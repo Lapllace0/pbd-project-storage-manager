@@ -20,8 +20,17 @@ class penjualanController extends Controller
 
         $barang = penjualan::getBarang();
 
-
-        return view('superAdmin.penjualan', compact('data', 'nextData', 'page', 'barang'));
+        if (session('role') == 1) {
+            return view('superAdmin.penjualan', compact('data', 'nextData', 'page', 'barang'));
+        } elseif (session('role') == 2) {
+            return view('manager.penjualan', compact('data', 'nextData', 'page', 'barang'));
+        } elseif (session('role') == 3) {
+            return view('admin.penjualan', compact('data', 'nextData', 'page', 'barang'));
+        } elseif (session('role') == 4) {
+            return redirect('/dashboard');
+        } elseif (session('role') == 5) {
+            return redirect('/dashboard');
+        }
     }
 
     public function actionPenjualan(Request $request)

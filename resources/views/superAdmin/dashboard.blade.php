@@ -17,38 +17,45 @@
             id="svg-a">
             <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
         </svg>
+        <h1 class="username-role">{{ session('username') }} ({{ session('namaRole') }})</h1>
+        <form action="/logout" method="POST">
+            <button id="btn-logout" type="submit">Log out</button>
+        </form>
         <aside class="sidebar" id="sidebar">
             <div>
                 <ul>
                     <li>
-                        <a href="{{route('getBarang', ['all', 1])}}" class="btn">Barang</a>
+                        <a href="{{ route('dashboard') }}" class="btn btn-active">Dashboard</a>
                     </li>
                     <li>
-                        <a href="{{route('getUser', 1)}}" class="btn">Users</a>
+                        <a href="{{ route('getBarang', ['all', 1]) }}" class="btn">Barang</a>
                     </li>
                     <li>
-                        <a href="{{route('getVendor', ['all',1])}}" class="btn">Vendor</a>
+                        <a href="{{ route('getUser', 1) }}" class="btn">Users</a>
                     </li>
                     <li>
-                        <a href="{{route('getRole', 1)}}" class="btn">Role</a>
+                        <a href="{{ route('getVendor', ['all', 1]) }}" class="btn">Vendor</a>
                     </li>
                     <li>
-                        <a href="{{route('getKartuStok', ['all',1])}}" class="btn">Kartu Stok</a>
+                        <a href="{{ route('getRole', 1) }}" class="btn">Role</a>
                     </li>
                     <li>
-                        <a href="{{route('getMarginPenjualan', ['all', 1])}}" class="btn">Margin</a>
+                        <a href="{{ route('getKartuStok', ['all', 1]) }}" class="btn">Kartu Stok</a>
                     </li>
                     <li>
-                        <a href="{{route('getSatuan', ['all', 1])}}" class="btn">Satuan</a>
+                        <a href="{{ route('getMarginPenjualan', ['all', 1]) }}" class="btn">Margin</a>
                     </li>
                     <li>
-                        <a href="{{route('getPenerimaan', ['all',1])}}" class="btn">Penerimaan</a>
+                        <a href="{{ route('getSatuan', ['all', 1]) }}" class="btn">Satuan</a>
                     </li>
                     <li>
-                        <a href="{{route('getPengadaan', ['all',1])}}" class="btn">Pengadaan</a>
+                        <a href="{{ route('getPenerimaan', ['all', 1]) }}" class="btn">Penerimaan</a>
                     </li>
                     <li>
-                        <a href="{{route('getPenjualan', 1)}}" class="btn">Penjualan</a>
+                        <a href="{{ route('getPengadaan', ['all', 1]) }}" class="btn">Pengadaan</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('getPenjualan', 1) }}" class="btn">Penjualan</a>
                     </li>
                 </ul>
             </div>
@@ -56,7 +63,7 @@
 
         <main class="main-content">
             <div>
-                <h1 class="welcome">Selamat Datang Admin</h1>
+                <h1 class="welcome">Selamat Datang Super Admin</h1>
             </div>
         </main>
     </div>

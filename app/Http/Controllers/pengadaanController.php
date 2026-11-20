@@ -20,7 +20,7 @@ class pengadaanController extends Controller
         } elseif ($filter == 'proses') {
             $data = pengadaan::getDataActive($offset);
             $nextData = pengadaan::getNextDataActive($offset);
-            } else {
+        } else {
             $data = pengadaan::getDataDone($offset);
             $nextData = pengadaan::getNextDataDone($offset);
         }
@@ -36,7 +36,17 @@ class pengadaanController extends Controller
             $nextFilter = 'all';
         }
 
-        return view('superAdmin.pengadaan', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'vendor', 'barang'));
+        if (session('role') == 1) {
+            return view('superAdmin.pengadaan', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'vendor', 'barang'));
+        } elseif (session('role') == 2) {
+            return view('manager.pengadaan', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'vendor', 'barang'));
+        } elseif (session('role') == 3) {
+            return redirect('/dashboard');
+        } elseif (session('role') == 4) {
+            return redirect('/dashboard');
+        } elseif (session('role') == 5) {
+            return view('sPengadaan.pengadaan', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'vendor', 'barang'));
+        }
     }
 
     public function actionPengadaan(Request $request)

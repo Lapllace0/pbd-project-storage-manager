@@ -10,14 +10,14 @@ class kartuStok extends Model
 
     public static function getDataAll(int $offset)
     {
-        return DB::select('select * from lihat_kartu_stok limit 5 offset ?', [$offset]);
+        return DB::select('select * from lihat_kartu_stok order by id_stok desc  limit 5 offset ?', [$offset]);
     }
 
     public static function getNextDataAll(int $offset)
     {
         return DB::select(
             'with dataA as (
-            select * from lihat_kartu_stok limit 5 offset ?)
+            select * from lihat_kartu_stok order by id_stok desc limit 5 offset ?)
             select count(*) as total from dataA',
             [$offset + 5],
         );
@@ -25,7 +25,7 @@ class kartuStok extends Model
 
     public static function getDataMasuk(int $offset)
     {
-        return DB::select('select * from lihat_kartu_stok where keluar = ? limit 5 offset ?', ['tidak ada',$offset]);
+        return DB::select('select * from lihat_kartu_stok where keluar = ? order by id_stok desc limit 5 offset ?', ['tidak ada',$offset]);
     }
 
     public static function getNextDataMasuk(int $offset)
@@ -33,7 +33,7 @@ class kartuStok extends Model
 
         return DB::select(
             'with dataA as (
-            select * from lihat_kartu_stok where keluar = ?  limit 5 offset ?)
+            select * from lihat_kartu_stok where keluar = ? order by id_stok desc  limit 5 offset ?)
             select count(*) as total from dataA',
             ['tidak ada',$offset + 5],
         );
@@ -41,7 +41,7 @@ class kartuStok extends Model
 
     public static function getDataKeluar(int $offset)
     {
-        return DB::select('select * from lihat_kartu_stok where masuk = ? limit 5 offset ?', ['tidak ada',$offset]);
+        return DB::select('select * from lihat_kartu_stok where masuk = ? order by id_stok desc limit 5 offset ?', ['tidak ada',$offset]);
     }
 
     public static function getNextDataKeluar(int $offset)
@@ -49,7 +49,7 @@ class kartuStok extends Model
 
         return DB::select(
             'with dataA as (
-            select * from lihat_kartu_stok where masuk = ? limit 5 offset ?)
+            select * from lihat_kartu_stok where masuk = ? order by id_stok desc limit 5 offset ?)
             select count(*) as total from dataA',
             ['tidak ada',$offset + 5],
         );

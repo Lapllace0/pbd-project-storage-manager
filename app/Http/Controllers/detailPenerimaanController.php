@@ -21,8 +21,16 @@ class detailPenerimaanController extends Controller
 
 
 
-
-        return view('superAdmin.detail_penerimaan', compact('data', 'nextData', 'page', 'idPenerimaan'));
+        if (session('role') == 1) {
+            return view('superAdmin.detail_penerimaan', compact('data', 'nextData', 'page', 'idPenerimaan'));
+        } elseif (session('role') == 2) {
+            return view('manager.detail_penerimaan', compact('data', 'nextData', 'page', 'idPenerimaan'));
+        } elseif (session('role') == 3) {
+            return redirect('/dashboard');
+        } elseif (session('role') == 4) {
+            return view('sGudang.detail_penerimaan', compact('data', 'nextData', 'page', 'idPenerimaan'));
+        } elseif (session('role') == 5) {
+            return redirect('/dashboard');
+        }
     }
-
 }

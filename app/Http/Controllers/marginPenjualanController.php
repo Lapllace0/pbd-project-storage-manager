@@ -23,12 +23,22 @@ class marginPenjualanController extends Controller
         }
 
         if ($filter == 'all') {
-            $nexFilter = 'active';
+            $nextFilter = 'active';
         } else {
-            $nexFilter = 'all';
+            $nextFilter = 'all';
         }
 
-        return view('superAdmin.margin_penjualan', compact('data', 'nextData', 'page', 'filter', 'nexFilter'));
+        if (session('role') == 1) {
+            return view('superAdmin.margin_penjualan', compact('data', 'nextData', 'page', 'filter', 'nextFilter'));
+        } elseif (session('role') == 2) {
+            return view('manager.margin_penjualan', compact('data', 'nextData', 'page', 'filter', 'nextFilter'));
+            } elseif (session('role') == 3) {
+            return view('admin.margin_penjualan', compact('data', 'nextData', 'page', 'filter', 'nextFilter'));
+            } elseif (session('role') == 4) {
+            return view('sGudang.margin_penjualan', compact('data', 'nextData', 'page', 'filter', 'nextFilter'));
+            } elseif (session('role') == 5) {
+            return view('sPengadaan.margin_penjualan', compact('data', 'nextData', 'page', 'filter', 'nextFilter'));
+        }
     }
 
     public function actionMarginPenjualan(Request $request)
@@ -60,7 +70,7 @@ class marginPenjualanController extends Controller
                     }
                 }
 
-                marginPenjualan::editData($request->persen, $request->status, session('user_id'), $request->idMargin);
+                marginPenjualan::editData($request->status, session('user_id'), $request->idMargin);
                 return redirect()->route('getMarginPenjualan', ['all', 1])->with('success', 'data berhasil diperbarui');
             } catch (Exception $e) {
                 return redirect()->route('getMarginPenjualan', ['all', 1])->with('failed', $e->getMessage());

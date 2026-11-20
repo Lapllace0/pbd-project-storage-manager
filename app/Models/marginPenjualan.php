@@ -52,13 +52,13 @@ class marginPenjualan extends Model
         }
     }
 
-    public static function editData($persen, $status, $idUser, $idMargin)
+    public static function editData($status, $idUser, $idMargin)
     {
         if ($status == 1) {
             DB::update('update margin_penjualan set status = 0 where status = 1');
-            return DB::update('update margin_penjualan set persen = ?, status = ?, idUser = ? where idMargin_penjualan = ?', [$persen, $status, $idUser, $idMargin]);
+            return DB::update('update margin_penjualan set status = ?, idUser = ? where idMargin_penjualan = ?', [$status, $idUser, $idMargin]);
             } else {
-            return DB::update('update margin_penjualan set persen = ?, status = ?, idUser = ? where idMargin_penjualan = ?', [$persen, $status, $idUser, $idMargin]);
+            return DB::update('update margin_penjualan set persen = ?, status = ?, idUser = ? where idMargin_penjualan = ?', [$status, $idUser, $idMargin]);
         }
     }
 }

@@ -32,7 +32,17 @@ class barangController extends Controller
 
         $status = barang::getStatus();
 
-        return view('superAdmin.barang', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'status'));
+        if (session('role') == 1) {
+            return view('superAdmin.barang', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'status'));
+        } elseif (session('role') == 2) {
+            return view('manager.barang', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'status'));
+        } elseif (session('role') == 3) {
+            return view('admin.barang', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'status'));
+            } elseif (session('role') == 4) {
+            return view('sGudang.barang', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'status'));
+            } elseif (session('role') == 5) {
+            return view('sPengadaan.barang', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'status'));
+        }
     }
 
     public function actionBarang(Request $request)
@@ -59,6 +69,5 @@ class barangController extends Controller
                 return redirect()->route('getBarang', [$request->filter, 1])->with('failed', 'data gagal ditambahkan');
             }
         }
-
     }
 }

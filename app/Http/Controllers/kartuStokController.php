@@ -38,7 +38,17 @@ class kartuStokController extends Controller
 
         $dataBarang = kartuStok::getBarang();
 
-        return view('superAdmin.kartu_stok', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'dataBarang'));
+        if (session('role') == 1) {
+            return view('superAdmin.kartu_stok', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'dataBarang'));
+        } elseif (session('role') == 2) {
+            return view('manager.kartu_stok', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'dataBarang'));
+            } elseif (session('role') == 3) {
+            return view('admin.kartu_stok', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'dataBarang'));
+            } elseif (session('role') == 4) {
+            return view('sGudang.kartu_stok', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'dataBarang'));
+            } elseif (session('role') == 5) {
+            return view('sPengadaan.kartu_stok', compact('data', 'nextData', 'page', 'filter', 'nextFilter', 'dataBarang'));
+        }
     }
 
     public function actionStock(Request $request)

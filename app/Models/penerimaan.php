@@ -59,6 +59,10 @@ class penerimaan extends Model
         return DB::select('select * from pengadaan where status = 0');
     }
 
+    public static function getBarangPenerimaanActive($idPengadaan) {
+        return DB::select('select * from lihat_barang_penerimaan_active where idPengadaan = ?', [$idPengadaan]);
+    }
+
 
     public static function insertData($dataArray, $idUser, $idPengadaan)
     {

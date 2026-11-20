@@ -30,9 +30,16 @@
             id="svg-a">
             <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
         </svg>
+        <h1 class="username-role">{{ session('username') }} ({{ session('namaRole') }})</h1>
+        <form action="/logout" method="POST">
+            <button id="btn-logout" type="submit">Log out</button>
+        </form>
         <aside class="sidebar" id="sidebar">
             <div>
                 <ul>
+                    <li>
+                        <a href="{{ route('dashboard') }}" class="btn">Dashboard</a>
+                    </li>
                     <li>
                         <a href="{{ route('getBarang', ['all', 1]) }}" class="btn">Barang</a>
                     </li>
@@ -71,7 +78,8 @@
             <div class="position">
 
                 <div class="navPanel">
-                    <div class="hidden-filter"></div>
+                    <a href="{{ route('getMarginPenjualan', [$nextFilter, 1]) }}"
+                        class="button-filter">{{ $filter }}</a>
                     <div class="navPage">
                         <h5 class="page">PAGE: {{ $page }}</h5>
                         @if ($page == 1)
@@ -236,6 +244,8 @@
 
             idMargin.value = p_marginPenjualan
             persen.value = p_persen
+            persen.disabled = true
+            persen.style.display = none
             status.value = p_status
             oldPersen.value = p_persen
         }
@@ -245,9 +255,13 @@
             let buttonEdit = document.querySelector('.button-form-edit')
             let inputForm = document.querySelectorAll('.input-form')
             let buttonAdd = document.querySelector('.button-form-add')
+            let persen = document.getElementById('persen')
+
             bgModal.style.display = 'flex'
             buttonEdit.style.display = 'none'
             buttonAdd.style.display = 'flex'
+            persen.style.display = flex
+            persen.disabled = false
 
             inputForm.forEach(element => {
                 element.value = ''

@@ -11,7 +11,7 @@
 
 <body>
     @if (session('error') !== null)
-        <h1>{{ session('error') }}</h1>
+        <h1 class="error_login">{{ session('error') }}</h1>
     @endif
     <div id="outerFrame">
         <div>
@@ -32,6 +32,23 @@
             </form>
         </div>
     </div>
+
+
+
+    <script>
+        let errorLogin = document.querySelector('.error_login')
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (errorLogin) {
+                setTimeout(() => {
+                    errorLogin.classList.add('error_login_remove')
+                    errorLogin.addEventListener('transitioned', () => {
+                        errorLogin.remove()
+                    })
+                }, 4000)
+            }
+        })
+    </script>
 </body>
 
 </html>
